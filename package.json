@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/premily/bemily/issues"
   },
-  "homepage": "https://github.com/premily/bemily"
+  "homepage": "https://github.com/premily/bemily",
+  "dependencies": {
+    "hapi": "^8.4.0"
+  }
 }
