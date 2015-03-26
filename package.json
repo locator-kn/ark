@@ -1,0 +1,19 @@
+{
+  "name": "bemily",
+  "version": "0.1.0",
+  "description": "backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/premily/bemily.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/premily/bemily/issues"
+  },
+  "homepage": "https://github.com/premily/bemily"
+}
