@@ -1,1 +1,1 @@
-var app = require('./lib/main.js');
+var app = require('./build/js/main.js');

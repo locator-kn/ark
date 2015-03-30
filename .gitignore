@@ -3,3 +3,6 @@ temp/
 npm-debug.log
 .DS_Store
 .idea
+release/
+typings/
+build/
