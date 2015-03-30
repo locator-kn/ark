@@ -1,3 +1,4 @@
+/// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
 
 var server = new Hapi.Server();
