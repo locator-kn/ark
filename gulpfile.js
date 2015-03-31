@@ -24,7 +24,7 @@ var tsProjectEmily = ts.createProject({
 });
 
 gulp.task('ts', function() {
-    var tsResult = gulp.src('lib/*.ts')
+    var tsResult = gulp.src('lib/**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(ts(tsProjectEmily));
 
