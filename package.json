@@ -4,7 +4,8 @@
   "description": "backend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "lab -t 100",
+    "test-cov-html": "lab -r html -o coverage.html",
     "develop": "gulp"
   },
   "repository": {
@@ -29,6 +30,7 @@
     "gulp-tsc": "^0.9.3",
     "gulp-typescript": "^2.5.0",
     "jshint-stylish": "^1.0.1",
+    "lab": "^5.5.1",
     "merge2": "^0.3.1",
     "node-notifier": "^4.1.2",
     "typescript": "^1.4.1"
