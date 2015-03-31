@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/premily/bemily",
   "dependencies": {
-    "hapi": "^8.4.0"
+    "cradle": "^0.6.9",
+    "hapi": "^8.4.0",
+    "nano": "^6.1.2"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
