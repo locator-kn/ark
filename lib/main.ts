@@ -23,7 +23,6 @@ server.route({
 server.register({
     register: userPlugin,
     options: {
-        database: 'http://localhost:5984',
         databaseInstance: dbInstance.db
     }
 }, userPlugin.errorInit);
