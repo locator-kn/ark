@@ -1,5 +1,4 @@
 export class UserPlugin {
-    register: any;
     databaseInstance: any;
     constructor() {
         this.register.attributes = {
@@ -34,7 +33,10 @@ export class UserPlugin {
     }
 
     errorInit(err) {
-        console.log('Failed to load plugin:', err);
+        if(err) {
+            console.log('Failed to load plugin:', err);
+        }
+
     }
 
 }
