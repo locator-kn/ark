@@ -1,4 +1,5 @@
 export class UserPlugin {
+    register: any;
     databaseInstance: any;
     constructor() {
         this.register.attributes = {
