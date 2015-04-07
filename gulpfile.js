@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
 var ts = require('gulp-typescript');
 var merge = require('merge2');

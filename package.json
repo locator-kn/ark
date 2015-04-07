@@ -26,7 +26,6 @@
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-jshint": "^1.9.4",
-    "gulp-nodemon": "^2.0.2",
     "gulp-notify": "^2.2.0",
     "gulp-sourcemaps": "^1.5.1",
     "gulp-tsc": "^0.9.3",
