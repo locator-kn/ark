@@ -6,7 +6,7 @@ var spawn = require('child_process').spawn;
 var iojsInstance = null;
 var notifier = require('node-notifier');
 var sourcemaps = require('gulp-sourcemaps');
-
+var typescript15 = require('typescript');
 
 gulp.task('jshint', function () {
       return gulp.src('./lib/*.js')
@@ -18,8 +18,9 @@ var tsProjectEmily = ts.createProject({
     declarationFiles: true,
     noExternalResolve: false,
     module: 'commonjs',
-    target: 'ES6',
-    noEmitOnError: false
+    target: 'ES5',
+    noEmitOnError: false,
+    typescript: typescript15
 });
 
 gulp.task('ts', function() {
