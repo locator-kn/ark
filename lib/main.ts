@@ -3,8 +3,9 @@ var Hapi = require('hapi');
 var DatabasePlugin = require('bemily-database');
 var UserPlugin = require('bemily-user');
 
-var lout = require('lout');
+var swagger = require('hapi-swagger');
 var blipp = require('blipp');
+var Joi = require('joi');
 
 var databasePlugin = new DatabasePlugin();
 var userPlugin = new UserPlugin();
@@ -19,6 +20,26 @@ var server = new Hapi.Server();
 
 server.connection({port: 3001});
 
+server.route({
+    method: 'GET',
+    path: '/todo/{id}/',
+    config: {
+        handler: (a, b) => {
+            b();
+        },
+        description: 'Get todo',
+        notes: 'Returns a todo item by the id passed in the path',
+        tags: ['api'],
+        validate: {
+            params: {
+                username: Joi.number()
+                    .required()
+                    .description('the id for the todo item'),
+            }
+        }
+    }
+});
+
 server.register({
     register: userPlugin
 }, routeOption, userPlugin.errorInit);
@@ -28,10 +49,10 @@ server.register({
 }, routeOption, databasePlugin.errorInit);
 
 server.register({
-    register: lout
+    register: swagger
 }, err => {
     if(err) {
-        console.error('unable to register plugin lout:', err);
+        console.error('unable to register plugin swagger:', err);
     }
 });
 
