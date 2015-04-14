@@ -6,7 +6,7 @@ var DatabasePlugin = require('bemily-database');
 var UserPlugin = require('bemily-user');
 var AuthPlugin = require('bemily-authentication');
 
-var auth = new AuthPlugin();
+var auth = new AuthPlugin(true);
 
 var databasePlugin = new DatabasePlugin('app', 'http://emily.iriscouch.com', 80);
 var userPlugin = new UserPlugin();
