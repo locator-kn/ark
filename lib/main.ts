@@ -3,6 +3,9 @@ var Hapi = require('hapi');
 var DatabasePlugin = require('bemily-database');
 var UserPlugin = require('bemily-user');
 
+var lout = require('lout');
+var blipp = require('blipp');
+
 var databasePlugin = new DatabasePlugin();
 var userPlugin = new UserPlugin();
 
@@ -23,6 +26,22 @@ server.register({
 server.register({
     register: databasePlugin
 }, routeOption, databasePlugin.errorInit);
+
+server.register({
+    register: lout
+}, err => {
+    if(err) {
+        console.error('unable to register plugin lout:', err);
+    }
+});
+
+server.register({
+    register: blipp
+}, err => {
+    if(err) {
+        console.error('unable to register plugin blipp:', err);
+    }
+});
 
 server.start(function () {
     console.log('Server running at:', server.info.uri);
