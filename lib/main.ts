@@ -4,8 +4,6 @@ var Hapi = require('hapi');
 // Plugins
 var DatabasePlugin = require('bemily-database');
 var UserPlugin = require('bemily-user');
-
-// Thirdparty plugins
 var AuthPlugin = require('bemily-authentication');
 
 var auth = new AuthPlugin();
