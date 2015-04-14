@@ -10,7 +10,6 @@ var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 var Joi = require('joi');
 
-var databasePlugin = new DatabasePlugin();
 var auth = new AuthPlugin(true);
 
 var databasePlugin = new DatabasePlugin('app', 'http://emily.iriscouch.com', 80);
