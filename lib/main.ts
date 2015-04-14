@@ -24,15 +24,8 @@ var server = new Hapi.Server();
 server.connection({port: 3001});
 
 server.register(auth, routeOption, function (err) {
-    console.log(err, 'bla');
-});
-server.route({
-    method: 'GET',
-    path: '/',
-    config: {
-        handler: function (request, reply) {
-            reply('hello, ' + 'kjhasd');
-        }
+    if(err) {
+        console.error('unable to register auth plugin:', err);
     }
 });
 
