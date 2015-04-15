@@ -1,13 +1,18 @@
 /// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
+
+// Plugins
 var DatabasePlugin = require('bemily-database');
 var UserPlugin = require('bemily-user');
+var AuthPlugin = require('bemily-authentication');
 
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 var Joi = require('joi');
 
-var databasePlugin = new DatabasePlugin();
+var auth = new AuthPlugin(true);
+
+var databasePlugin = new DatabasePlugin('app', 'http://emily.iriscouch.com', 80);
 var userPlugin = new UserPlugin();
 
 var routeOption = {
@@ -19,6 +24,12 @@ var routeOption = {
 var server = new Hapi.Server();
 
 server.connection({port: 3001});
+
+server.register(auth, routeOption, function (err) {
+    if(err) {
+        console.error('unable to register auth plugin:', err);
+    }
+});
 
 server.route({
     method: 'GET',
