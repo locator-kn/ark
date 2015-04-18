@@ -9,12 +9,12 @@ var sourcemaps = require('gulp-sourcemaps');
 var typescript15 = require('typescript');
 
 gulp.task('jshint', function () {
-      return gulp.src('./lib/*.js')
+    return gulp.src('./lib/*.js')
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('jshint-stylish'));
 });
 
-var tsProjectEmily = ts.createProject({
+var tsProjectTripl = ts.createProject({
     declarationFiles: true,
     noExternalResolve: false,
     module: 'commonjs',
@@ -23,12 +23,12 @@ var tsProjectEmily = ts.createProject({
     typescript: typescript15
 });
 
-gulp.task('ts', function() {
+gulp.task('ts', function () {
     var tsResult = gulp.src('lib/**/*.ts')
         .pipe(sourcemaps.init())
-        .pipe(ts(tsProjectEmily));
+        .pipe(ts(tsProjectTripl));
 
-    tsResult._events.error[0] = function(error) {
+    tsResult._events.error[0] = function (error) {
         notifier.notify({
             'title': 'Compilation error',
             'message': error.__safety.toString(),
@@ -59,6 +59,6 @@ gulp.task('start', ['ts'], function () {
 });
 
 
-gulp.task('default', ['start'], function() {
+gulp.task('default', ['start'], function () {
     gulp.watch(['./lib/**/*.ts'], ['start']);
 });
