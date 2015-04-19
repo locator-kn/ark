@@ -29,7 +29,7 @@ server.route({
             params: {
                 username: Joi.number()
                     .required()
-                    .description('the id for the todo item'),
+                    .description('the id for the todo item')
             }
         }
     }

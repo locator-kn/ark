@@ -20,12 +20,8 @@
   "homepage": "https://github.com/tripl-kn/backend",
   "dependencies": {
     "blipp": "^2.1.1",
-    "cradle": "^0.6.9",
     "hapi": "^8.4.0",
-    "hapi-swagger": "^0.7.3",
-    "joi": "^6.1.2",
-    "lout": "^6.2.2",
-    "nano": "^6.1.2"
+    "hapi-swagger": "^0.7.3"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
