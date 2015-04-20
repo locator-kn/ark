@@ -4,6 +4,11 @@ var Hapi = require('hapi');
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 var Joi = require('joi');
+var loc = require('backend-locationpool');
+var db = require('backend-database');
+
+var location = new loc();
+var database = new db('app');
 
 var routeOption = {
     routes: {
@@ -38,7 +43,7 @@ server.route({
 server.register({
     register: swagger
 }, err => {
-    if(err) {
+    if (err) {
         console.error('unable to register plugin swagger:', err);
     }
 });
@@ -46,10 +51,18 @@ server.register({
 server.register({
     register: blipp
 }, err => {
-    if(err) {
+    if (err) {
         console.error('unable to register plugin blipp:', err);
     }
 });
+
+server.register({
+    register: database
+},routeOption, database.errorInit);
+
+server.register({
+    register: location
+},routeOption, location.errorInit);
 
 server.start(function () {
     console.log('Server running at:', server.info.uri);
