@@ -6,7 +6,8 @@
   "scripts": {
     "test": "lab -t 100",
     "test-cov-html": "lab -r html -o coverage.html",
-    "develop": "gulp"
+    "develop": "gulp",
+    "coveralls": "lab -r lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/tripl-kn/backend",
   "dependencies": {
     "blipp": "^2.1.1",
+    "coveralls": "^2.11.2",
     "hapi": "^8.4.0",
     "hapi-swagger": "^0.7.3"
   },
