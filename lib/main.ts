@@ -6,6 +6,12 @@ var blipp = require('blipp');
 var Joi = require('joi');
 var loc = require('backend-locationpool');
 var db = require('backend-database');
+var Fs = require('fs');
+
+var cradle = require('cradle');
+
+var dbLive = new(cradle.Connection)().database('alice');
+
 
 var location = new loc();
 var database = new db('app');
@@ -39,6 +45,48 @@ server.route({
         }
     }
 });
+var routeConfig = {
+    validate: {
+        payload: {
+            file: Joi.required().description('file name for picture upload')
+        }
+    },
+    payload: {
+        output: 'stream',
+        parse: true,
+        allow: 'multipart/form-data',
+        maxBytes: 1000000000000
+    },
+
+    handler: function (request, reply) {
+        var doc = {
+            _id: 'fooDocumentIDs'
+        };
+        var idData = {
+            id: doc._id
+        };
+
+        var attachmentData = {
+            name: request.payload.file.hapi.filename,
+            'Content-Type': 'multipart/form-data'
+        };
+
+        request.payload.file.pipe(dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
+            if (err) {
+                reply({status: err});
+                console.error('cradle', err);
+                return
+            }
+            reply({status: 'ok!'});
+            console.dir(reply2)
+        }));
+
+
+
+
+        //request.payload.file.pipe(image);
+    }
+};
 
 server.register({
     register: swagger
@@ -55,6 +103,9 @@ server.register({
         console.error('unable to register plugin blipp:', err);
     }
 });
+
+
+server.route({ method: 'POST', path: '/selfies', config: routeConfig });
 
 server.register({
     register: database
