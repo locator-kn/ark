@@ -6,3 +6,5 @@ node_js:
 before_script:
   - npm install -g gulp lab coveralls
 script: gulp
+after_success:
+  npm run coveralls
