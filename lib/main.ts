@@ -6,7 +6,9 @@ var blipp = require('blipp');
 var Joi = require('joi');
 var loc = require('backend-locationpool');
 var db = require('backend-database');
-var Fs = require('fs');
+var stream = require('stream');
+var Readable = stream.Readable ||
+    require('readable-stream').Readable;
 
 var cradle = require('cradle');
 
@@ -87,6 +89,35 @@ var routeConfig = {
         //request.payload.file.pipe(image);
     }
 };
+
+
+server.route({
+    method: 'GET',
+    path: '/selfies',
+    handler: (request, reply) => {
+        var doc = {
+            _id: 'fooDocumentID'
+        };
+        var idData = {
+            id: doc._id
+        };
+
+        var stream = dbLive.getAttachment('fooDocumentIDs', 'notif.png', err => {
+            if(err) {
+                return console.log(err);
+            }
+            console.log('success');
+
+        });
+        stream.on('data', function() {
+            console.log(arguments);
+        });
+
+        var readStream = new Readable().wrap(stream);
+        reply(readStream);
+
+    }
+});
 
 server.register({
     register: swagger
