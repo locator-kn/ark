@@ -7,7 +7,8 @@
     "test": "lab -t 100",
     "test-cov-html": "lab -r html -o coverage.html",
     "develop": "gulp",
-    "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls"
+    "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls",
+    "build": "tsd reinstall && gulp ts"
   },
   "repository": {
     "type": "git",

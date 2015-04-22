@@ -38,7 +38,7 @@ server.route({
 server.register({
     register: swagger
 }, err => {
-    if(err) {
+    if (err) {
         console.error('unable to register plugin swagger:', err);
     }
 });
@@ -46,7 +46,7 @@ server.register({
 server.register({
     register: blipp
 }, err => {
-    if(err) {
+    if (err) {
         console.error('unable to register plugin blipp:', err);
     }
 });
