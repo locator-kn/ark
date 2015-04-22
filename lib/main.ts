@@ -35,6 +35,16 @@ server.route({
     }
 });
 
+server.route({
+    method: 'GET',
+    path: '/test',
+    config: {
+        handler: (a, b) => {
+            b('test');
+        }
+    }
+});
+
 server.register({
     register: swagger
 }, err => {
