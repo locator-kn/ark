@@ -24,7 +24,8 @@
     "blipp": "^2.1.1",
     "coveralls": "^2.11.2",
     "hapi": "^8.4.0",
-    "hapi-swagger": "^0.7.3"
+    "hapi-swagger": "^0.7.3",
+    "joi": "^6.4.1"
   },
   "devDependencies": {
     "code": "^1.4.0",
