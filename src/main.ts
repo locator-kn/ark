@@ -9,18 +9,16 @@ var Joi = require('joi');
 var Database = require('ark-database');
 var Trip = require('ark-trip');
 var User = require('ark-user');
-
-// testing plugins
-var loc = require('ark-locationpool');
-var location = new loc();
+var Location = require('ark-locationpool');
 
 // init ark plugins
 var db = new Database('alice', 'http://localhost/');
 var trip = new Trip();
 var user = new User();
+var loc = new Location();
 
 
-var prefixedArkPlugins = [trip, user, location];
+var prefixedArkPlugins = [trip, user, loc];
 
 var routeOption = {
     routes: {
