@@ -28,36 +28,6 @@ var server = new Hapi.Server();
 
 server.connection({port: (process.env.PORT || 3001)});
 
-server.route({
-    method: 'GET',
-    path: '/todo/{id}/',
-    config: {
-        handler: (a, b) => {
-            b();
-        },
-        description: 'Get todo',
-        notes: 'Returns a todo item by the id passed in the path',
-        tags: ['api'],
-        validate: {
-            params: {
-                username: Joi.number()
-                    .required()
-                    .description('the id for the todo item')
-            }
-        }
-    }
-});
-
-server.route({
-    method: 'GET',
-    path: '/test',
-    config: {
-        handler: (a, b) => {
-            b('test');
-        }
-    }
-});
-
 
 // register ark plugins without routes
 server.register({
