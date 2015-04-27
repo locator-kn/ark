@@ -15,7 +15,7 @@ var loc = require('ark-locationpool');
 var location = new loc();
 
 // init ark plugins
-var db = new Database('app', 'https://locator-kn.iriscouch.com', 80);
+var db = new Database('alice', 'http://localhost/');
 var trip = new Trip();
 var user = new User();
 
