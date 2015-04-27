@@ -5,3 +5,10 @@
 
 # tripl-kn
 backend
+
+
+# use
+
+- tsd reinstall
+- npm install
+- run: gulp
