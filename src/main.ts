@@ -10,15 +10,17 @@ var Database = require('ark-database');
 var Trip = require('ark-trip');
 var User = require('ark-user');
 var Location = require('ark-locationpool');
+var StaticData = require('ark-staticdata');
 
 // init ark plugins
 var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
 var trip = new Trip();
 var user = new User();
 var loc = new Location();
+var staticData = new StaticData();
 
 
-var prefixedArkPlugins = [trip, user, loc];
+var prefixedArkPlugins = [trip, user, loc, staticData];
 
 var routeOption = {
     routes: {
