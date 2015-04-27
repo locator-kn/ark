@@ -1,0 +1,10 @@
+#!/bin/bash
+cd public/
+git clone https://github.com/locator-kn/web.git
+cd web/
+npm install
+gulp
+pwd
+cd ../..
+mv -f public/web/www/* public/
+rm -rf ./public/web/

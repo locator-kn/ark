@@ -31,6 +31,16 @@ var server = new Hapi.Server();
 server.connection({port: (process.env.PORT || 3001)});
 
 
+server.route({
+    method: 'GET',
+    path: '/{param*}',
+    handler: {
+        directory: {
+            path: 'public'
+        }
+    }
+});
+
 // register ark plugins without routes
 server.register({
     register: db
