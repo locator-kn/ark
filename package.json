@@ -4,7 +4,7 @@
   "description": "backend of project locator-kn",
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 100",
+    "test": "lab -t 90",
     "test-cov-html": "lab -r html -o coverage.html",
     "develop": "gulp",
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls",
