@@ -9,14 +9,16 @@ var Joi = require('joi');
 var Database = require('ark-database');
 var Trip = require('ark-trip');
 var User = require('ark-user');
+var Location = require('ark-locationpool');
 
 // init ark plugins
 var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
 var trip = new Trip();
 var user = new User();
+var loc = new Location();
 
 
-var prefixedArkPlugins = [trip, user];
+var prefixedArkPlugins = [trip, user, loc];
 
 var routeOption = {
     routes: {
