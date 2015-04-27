@@ -11,7 +11,7 @@ var Trip = require('ark-trip');
 var User = require('ark-user');
 
 // init ark plugins
-var db = new Database('app', 'https://locator-kn.iriscouch.com', 80);
+var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
 var trip = new Trip();
 var user = new User();
 
