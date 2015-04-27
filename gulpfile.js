@@ -9,7 +9,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var typescript15 = require('typescript');
 
 gulp.task('jshint', function () {
-    return gulp.src('./lib/*.js')
+    return gulp.src('./src/*.js')
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('jshint-stylish'));
 });
@@ -24,7 +24,7 @@ var tsProjectTripl = ts.createProject({
 });
 
 gulp.task('ts', function () {
-    var tsResult = gulp.src('lib/**/*.ts')
+    var tsResult = gulp.src('src/**/*.ts')
         .pipe(sourcemaps.init())
         .pipe(ts(tsProjectTripl));
 
@@ -60,5 +60,5 @@ gulp.task('start', ['ts'], function () {
 
 
 gulp.task('default', ['start'], function () {
-    gulp.watch(['./lib/**/*.ts'], ['start']);
+    gulp.watch(['./src/**/*.ts'], ['start']);
 });
