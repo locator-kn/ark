@@ -12,7 +12,7 @@ var User = require('ark-user');
 var Location = require('ark-locationpool');
 
 // init ark plugins
-var db = new Database('alice', 'http://localhost/');
+var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
 var trip = new Trip();
 var user = new User();
 var loc = new Location();
