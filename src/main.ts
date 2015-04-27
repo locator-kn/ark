@@ -26,7 +26,7 @@ var routeOption = {
 
 var server = new Hapi.Server();
 
-server.connection({port: 3001});
+server.connection({port: (process.env.PORT || 3001)});
 
 server.route({
     method: 'GET',
