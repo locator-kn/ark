@@ -12,7 +12,7 @@ var Readable = stream.Readable ||
 
 var cradle = require('cradle');
 
-var dbLive = new(cradle.Connection)().database('alice');
+var dbLive = new (cradle.Connection)().database('alice');
 
 
 var location = new loc();
@@ -47,48 +47,49 @@ server.route({
         }
     }
 });
-var routeConfig = {
-    validate: {
+
+server.route({
+    method: 'POST',
+    path: '/selfies',
+    config: {
         payload: {
-            file: Joi.required().description('file name for picture upload')
-        }
-    },
-    payload: {
-        output: 'stream',
-        parse: true,
-        allow: 'multipart/form-data',
-        maxBytes: 1000000000000
-    },
+            output: 'stream',
+            parse: true,
+            allow: 'multipart/form-data',
+            maxBytes: 1000000000000
+        },
+        handler: function (request, reply) {
+            var doc = {
+                _id: 'fooDocumentIDs'
+            };
+            var idData = {
+                id: doc._id
+            };
 
-    handler: function (request, reply) {
-        var doc = {
-            _id: 'fooDocumentIDs'
-        };
-        var idData = {
-            id: doc._id
-        };
+            var attachmentData = {
+                name: request.payload.file.hapi.filename,
+                'Content-Type': 'multipart/form-data'
+            };
 
-        var attachmentData = {
-            name: request.payload.file.hapi.filename,
-            'Content-Type': 'multipart/form-data'
-        };
+            // pipe (stream) the image into the db and save it as an attachment
+            request.payload.file.pipe(dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
+                if (err) {
+                    reply({status: err});
+                    console.error('cradle', err);
+                    return
+                }
+                reply({status: 'ok!'});
+                console.dir(reply2)
+            }));
 
-        request.payload.file.pipe(dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
-            if (err) {
-                reply({status: err});
-                console.error('cradle', err);
-                return
+        },
+        validate: {
+            payload: {
+                file: Joi.required().description('file name for picture upload')
             }
-            reply({status: 'ok!'});
-            console.dir(reply2)
-        }));
-
-
-
-
-        //request.payload.file.pipe(image);
+        }
     }
-};
+});
 
 
 server.route({
@@ -103,13 +104,13 @@ server.route({
         };
 
         var stream = dbLive.getAttachment('fooDocumentIDs', 'notif.png', err => {
-            if(err) {
+            if (err) {
                 return console.log(err);
             }
             console.log('success');
 
         });
-        stream.on('data', function() {
+        stream.on('data', function () {
             console.log(arguments);
         });
 
@@ -136,15 +137,13 @@ server.register({
 });
 
 
-server.route({ method: 'POST', path: '/selfies', config: routeConfig });
-
 server.register({
     register: database
-},routeOption, database.errorInit);
+}, routeOption, database.errorInit);
 
 server.register({
     register: location
-},routeOption, location.errorInit);
+}, routeOption, location.errorInit);
 
 server.start(function () {
     console.log('Server running at:', server.info.uri);
