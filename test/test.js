@@ -15,17 +15,17 @@ describe('Server', function () {
         done();
     });
 
-    it('should register routes', function (done) {
-        var options = {
-            method: 'GET',
-            url: '/test'
-        };
-        server.inject(options, function (response) {
-            var result = response.result;
-            expect(result).to.equal('test');
-            done();
-        });
-
-    });
+    //it('should register routes', function (done) {
+    //    var options = {
+    //        method: 'GET',
+    //        url: '/test'
+    //    };
+    //    server.inject(options, function (response) {
+    //        var result = response.result;
+    //        expect(result).to.equal('test');
+    //        done();
+    //    });
+    //
+    //});
 
 });
