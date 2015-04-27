@@ -5,6 +5,19 @@ var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 var Joi = require('joi');
 
+// ark plugins
+var Database = require('ark-database');
+var Trip = require('ark-trip');
+var User = require('ark-user');
+
+// init ark plugins
+var db = new Database('app', 'https://locator-kn.iriscouch.com', 80);
+var trip = new Trip();
+var user = new User();
+
+
+var prefixedArkPlugins = [trip, user];
+
 var routeOption = {
     routes: {
         prefix: '/api/v1'
@@ -42,6 +55,19 @@ server.route({
         handler: (a, b) => {
             b('test');
         }
+    }
+});
+
+
+// register ark plugins without routes
+server.register({
+    register: db
+}, db.errorInit);
+
+// register ark plugins with routes (prefix)
+server.register(prefixedArkPlugins, routeOption, err => {
+    if (err) {
+        console.error('unable to init plugin:', err);
     }
 });
 
