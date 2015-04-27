@@ -24,7 +24,7 @@
   "dependencies": {
     "ark-database": "^0.2.0",
     "ark-staticdata": "^0.1.0",
-    "ark-locationpool": "^0.1.1",
+    "ark-locationpool": "^0.1.2",
     "ark-trip": "^0.1.0",
     "ark-user": "^0.1.0",
     "blipp": "^2.1.1",
