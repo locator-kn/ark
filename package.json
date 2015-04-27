@@ -1,7 +1,7 @@
 {
-  "name": "backend",
+  "name": "ark",
   "version": "0.1.0",
-  "description": "backend of project tripl-kn",
+  "description": "backend of project locator-kn",
   "main": "index.js",
   "scripts": {
     "test": "lab -t 100",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tripl-kn/backend.git"
+    "url": "https://github.com/locator-kn/ark.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tripl-kn/backend/issues"
+    "url": "https://github.com/locator-kn/ark/issues"
   },
-  "homepage": "https://github.com/tripl-kn/backend",
+  "homepage": "https://github.com/locator-kn/ark",
   "dependencies": {
     "blipp": "^2.1.1",
     "coveralls": "^2.11.2",
