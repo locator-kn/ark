@@ -3,7 +3,7 @@ cd public/
 git clone https://github.com/locator-kn/web.git
 cd web/
 npm install
-gulp
+gulp --live
 pwd
 cd ../..
 mv -f public/web/www/* public/
