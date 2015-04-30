@@ -3,6 +3,7 @@ cd public/
 git clone https://github.com/locator-kn/web.git
 cd web/
 npm install
+bower install --allow-root
 gulp --live
 pwd
 cd ../..
