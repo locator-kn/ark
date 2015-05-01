@@ -13,7 +13,13 @@ var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 
-var envVariables = require('./../../env.json');
+var envVariables = {};
+if(!process.env.travis) {
+    envVariables = require('./../../env.json');
+} else {
+    envVariables = require('./../../placeholderEnv.json');
+}
+
 
 // init ark plugins
 var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
