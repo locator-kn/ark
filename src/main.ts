@@ -16,7 +16,7 @@ var ArkAuth = require('ark-authentication');
 var envVariables = require('./../../env.json');
 
 // init ark plugins
-var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
+var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
