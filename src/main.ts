@@ -11,6 +11,9 @@ var Trip = require('ark-trip');
 var User = require('ark-user');
 var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
+var ArkAuth = require('ark-authentication');
+
+var envVariables = require('./../../env.json');
 
 // init ark plugins
 var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
@@ -18,6 +21,7 @@ var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
+var arkAuth = new ArkAuth(false, 6000, envVariables.auth);
 
 
 var prefixedArkPlugins = [trip, user, loc, staticData];
@@ -47,6 +51,10 @@ server.route({
 server.register({
     register: db
 }, db.errorInit);
+
+server.register({
+    register: arkAuth
+}, arkAuth.errorInit);
 
 // register ark plugins with routes (prefix)
 server.register(prefixedArkPlugins, routeOption, err => {
