@@ -23,8 +23,8 @@
   "homepage": "https://github.com/locator-kn/ark",
   "dependencies": {
     "ark-database": "^0.2.1",
-    "ark-staticdata": "^1.1.0",
     "ark-locationpool": "^0.1.2",
+    "ark-staticdata": "^1.1.0",
     "ark-trip": "^0.1.0",
     "ark-user": "^0.1.0",
     "blipp": "^2.1.1",
@@ -32,7 +32,8 @@
     "hapi": "^8.4.0",
     "hapi-swagger": "^0.7.3",
     "joi": "^6.4.1",
-    "tsd": "^0.5.7"
+    "tsd": "^0.5.7",
+    "tv": "^4.1.0"
   },
   "devDependencies": {
     "code": "^1.4.0",

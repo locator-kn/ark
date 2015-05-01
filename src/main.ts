@@ -4,6 +4,7 @@ var Hapi = require('hapi');
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 var Joi = require('joi');
+var Tv = require('tv');
 
 // ark plugins
 var Database = require('ark-database');
@@ -70,9 +71,15 @@ server.register({
         console.error('unable to register plugin blipp:', err);
     }
 });
-
-server.start(function () {
-    console.log('Server running at:', server.info.uri);
+server.register({
+    register: Tv
+}, err => {
+  if (err) {
+      return console.error('unable to register plugin blipp:', err);
+  }
+    server.start(function () {
+        console.log('Server running at:', server.info.uri);
+    });
 });
 
 module.exports = server;
