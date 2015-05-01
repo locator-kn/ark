@@ -4,7 +4,6 @@ var Hapi = require('hapi');
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 var Joi = require('joi');
-var Tv = require('tv');
 
 // ark plugins
 var Database = require('ark-database');
@@ -12,13 +11,23 @@ var Trip = require('ark-trip');
 var User = require('ark-user');
 var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
+var ArkAuth = require('ark-authentication');
+
+var envVariables = {};
+if(!process.env.travis) {
+    envVariables = require('./../../env.json');
+} else {
+    envVariables = require('./../../placeholderEnv.json');
+}
+
 
 // init ark plugins
-var db = new Database('app', 'https://locator-kn.iriscouch.com', 443);
+var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
+var arkAuth = new ArkAuth(false, 6000, envVariables.auth);
 
 
 var prefixedArkPlugins = [trip, user, loc, staticData];
@@ -49,6 +58,10 @@ server.register({
     register: db
 }, db.errorInit);
 
+server.register({
+    register: arkAuth
+}, arkAuth.errorInit);
+
 // register ark plugins with routes (prefix)
 server.register(prefixedArkPlugins, routeOption, err => {
     if (err) {
@@ -71,15 +84,9 @@ server.register({
         console.error('unable to register plugin blipp:', err);
     }
 });
-server.register({
-    register: Tv
-}, err => {
-  if (err) {
-      return console.error('unable to register plugin blipp:', err);
-  }
-    server.start(function () {
-        console.log('Server running at:', server.info.uri);
-    });
+
+server.start(function () {
+    console.log('Server running at:', server.info.uri);
 });
 
 module.exports = server;

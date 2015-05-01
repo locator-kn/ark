@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/locator-kn/ark",
   "dependencies": {
-    "ark-database": "^0.2.1",
+    "ark-authentication": "^0.1.0",
+    "ark-database": "^1.0.0",
     "ark-locationpool": "^0.1.2",
     "ark-staticdata": "^1.1.0",
     "ark-trip": "^0.1.0",
