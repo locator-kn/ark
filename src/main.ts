@@ -3,7 +3,6 @@ var Hapi = require('hapi');
 
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
-var Joi = require('joi');
 
 // ark plugins
 var Database = require('ark-database');
