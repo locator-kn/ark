@@ -13,11 +13,10 @@ var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 
-var envVariables = {};
 if(!process.env.travis) {
-    envVariables = require('./../../env.json');
+    var envVariables = require('./../../env.json');
 } else {
-    envVariables = require('./../../placeholderEnv.json');
+    var envVariables = require('./../../placeholderEnv.json');
 }
 
 
