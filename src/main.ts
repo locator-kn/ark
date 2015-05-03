@@ -25,7 +25,7 @@ var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
-var arkAuth = new ArkAuth(false, 6000, envVariables.auth);
+var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
 
 
 var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth];
@@ -44,10 +44,13 @@ server.connection({port: (process.env.PORT || 3001)});
 server.route({
     method: 'GET',
     path: '/{param*}',
-    handler: {
-        directory: {
-            path: 'public'
-        }
+    config: {
+        handler: {
+            directory: {
+                path: 'public'
+            }
+        },
+        auth: false
     }
 });
 
