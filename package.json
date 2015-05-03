@@ -24,7 +24,7 @@
   "dependencies": {
     "ark-authentication": "^0.2.0",
     "ark-database": "^1.0.0",
-    "ark-locationpool": "^0.1.2",
+    "ark-locationpool": "^1.0.0",
     "ark-staticdata": "^1.1.0",
     "ark-trip": "^0.1.0",
     "ark-user": "^0.1.0",
