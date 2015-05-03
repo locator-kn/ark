@@ -27,7 +27,7 @@
     "ark-locationpool": "^1.0.0",
     "ark-staticdata": "^1.1.0",
     "ark-trip": "^0.1.0",
-    "ark-user": "^0.1.0",
+    "ark-user": "^0.2.0",
     "blipp": "^2.1.1",
     "coveralls": "^2.11.2",
     "hapi": "^8.4.0",
