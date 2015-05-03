@@ -28,7 +28,7 @@ var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 6000, envVariables.auth);
 
 
-var prefixedArkPlugins = [trip, user, loc, staticData];
+var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth];
 
 var routeOption = {
     routes: {
@@ -55,10 +55,6 @@ server.route({
 server.register({
     register: db
 }, db.errorInit);
-
-server.register({
-    register: arkAuth
-}, arkAuth.errorInit);
 
 // register ark plugins with routes (prefix)
 server.register(prefixedArkPlugins, routeOption, err => {
