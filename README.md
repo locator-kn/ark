@@ -21,6 +21,7 @@ npm install
 (you might need to fix various errors on Windows systems)
 
  - Now set up the database:
+ 
 set up database // TODO
 
  - To run the apllication enter the following in to the terminal:
