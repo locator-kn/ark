@@ -6,21 +6,24 @@
 
 
 # use
-Clone this repository
+
+> **Prerequisite:** You need to have installed io.js, npm and gulp.
+
+ - Clone this repository
 ```bash
 git clone https://github.com/locator-kn/ark.git
 ```
 
-Navigate to the folder, open the terminal and type:
+ - Navigate to the folder, open the terminal and type:
 ```bash
 npm install
 ```
 (you might need to fix various errors on Windows systems)
 
-Now set up the database:
+ - Now set up the database:
  - set up database
 
-To run the apllication enter the following in to the terminal:
+ - To run the apllication enter the following in to the terminal:
 ```bash
 gulp
 ```
