@@ -99,19 +99,20 @@ server.register({
 // stream testing
 server.route({
     method: 'GET',
-    path: '/selfies',
+    path: '/selfies/{id}/profile.jpg',
     config: {
         auth: false,
     },
     handler: (request, reply) => {
         var doc = {
-            _id: 'fooDocumentID'
+            _id: request.params.id
         };
         var idData = {
             id: doc._id
         };
+        console.log(doc)
 
-        var stream = dbLive.getAttachment('fooDocumentIDs', 'locator.png', err => {
+        var stream = dbLive.getAttachment(request.params.id, 'profile.jpg', err => {
             if (err) {
                 return console.log(err);
             }
@@ -141,21 +142,31 @@ server.route({
         auth: false,
         handler: function (request, reply) {
             var doc = {
-                _id: 'fooDocumentIDs'
+                _id: 'fooDocumentIDs',
+                // NOTE: important, needs to be resolved from somewhere
+               // _rev: '7-b51195ffa3b645e46ba53840620ef4dc'
+
             };
             var idData = {
-                id: doc._id
+                id: doc._id,
+               // rev: doc._rev
             };
 
+            var width = request.payload.width;
+            var height = request.payload.height;
+            var xCoord = request.payload.xCoord;
+            var yCoord = request.payload.yCoord;
+
+
+
             var attachmentData = {
-                name: request.payload.file.hapi.filename,
+                name: 'profile.jpg', //request.payload.file.hapi.filename,
                 'Content-Type': 'multipart/form-data'
             };
 
             // create readStream
             var readStream = request.payload.file;
-
-            // create writeStream
+            // create writeStream (with callback function)
             var writeStream = dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
                 if (err) {
                     reply({status: err});
@@ -166,20 +177,24 @@ server.route({
                 console.dir(reply2)
             });
 
+
+            // pipe (stream) the image into the db and save it as an attachment AND resize it !!
             gm(readStream)
-                .resize('2000', '2000')
+                .crop(width,height,xCoord,yCoord)
                 .stream()
                 .pipe(writeStream);
+
+            // also save a thumbnail
 
             // pipe (stream) the image into the db and save it as an attachment
             //readStream.pipe(writeStream);
 
         },
-        validate: {
-            payload: {
-                file: Joi.required().description('file name for picture upload')
-            }
-        }
+        //validate: {
+        //    payload: {
+        //        file: Joi.required().description('file name for picture upload')
+        //    }
+        //}
     }
 });
 
