@@ -12,6 +12,18 @@ var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 
+// stream testing
+var stream = require('stream');
+var Joi = require('joi');
+var Readable = stream.Readable ||
+    require('readable-stream').Readable;
+
+var cradle = require('cradle');
+
+var dbLive = new (cradle.Connection)().database('alice');
+
+// end stream testing
+
 if(!process.env.travis) {
     var envVariables = require('./../../env.json');
 } else {
@@ -20,7 +32,8 @@ if(!process.env.travis) {
 
 
 // init ark plugins
-var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
+//var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
+var db = new Database('app', envVariables.db, 'http://localhost');
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
@@ -79,6 +92,51 @@ server.register({
 }, err => {
     if (err) {
         console.error('unable to register plugin blipp:', err);
+    }
+});
+
+// stream testing
+server.route({
+    method: 'POST',
+    path: '/selfies',
+    config: {
+        payload: {
+            output: 'stream',
+            parse: true,
+            allow: 'multipart/form-data',
+            maxBytes: 1000000000000
+        },
+        auth: false,
+        handler: function (request, reply) {
+            var doc = {
+                _id: 'fooDocumentIDs'
+            };
+            var idData = {
+                id: doc._id
+            };
+
+            var attachmentData = {
+                name: request.payload.file.hapi.filename,
+                'Content-Type': 'multipart/form-data'
+            };
+
+            // pipe (stream) the image into the db and save it as an attachment
+            request.payload.file.pipe(dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
+                if (err) {
+                    reply({status: err});
+                    console.error('cradle', err);
+                    return
+                }
+                reply({status: 'ok!'});
+                console.dir(reply2)
+            }));
+
+        },
+        validate: {
+            payload: {
+                file: Joi.required().description('file name for picture upload')
+            }
+        }
     }
 });
 
