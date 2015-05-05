@@ -1,1 +1,1 @@
-var app = require('./build/js/main.js');
+module.exports = require('./build/js/main.js');

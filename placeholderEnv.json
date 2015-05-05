@@ -1,0 +1,13 @@
+{
+    "auth": {
+        "GOOGLE_CLIENTID": "foo",
+        "GOOGLE_CLIENTSECRET": "foo",
+        "FACEBOOK_CLIENTID": "foo",
+        "FACEBOOK_CLIENTSECRET": "foo",
+        "COOKIE_SECRET": "foo"
+    },
+    "db": {
+        "COUCH_USERNAME": "foo",
+        "COUCH_PASSWORD": "foo"
+    }
+}

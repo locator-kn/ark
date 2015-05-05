@@ -7,3 +7,4 @@ release/
 typings/
 build/
 coverage.html
+env.json

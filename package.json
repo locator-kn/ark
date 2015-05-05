@@ -1,31 +1,44 @@
 {
-  "name": "backend",
+  "name": "ark",
   "version": "0.1.0",
-  "description": "backend of project tripl-kn",
+  "description": "backend of project locator-kn",
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 100",
+    "test": "lab -t 80",
     "test-cov-html": "lab -r html -o coverage.html",
-    "develop": "gulp"
+    "develop": "gulp",
+    "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls",
+    "build": "tsd reinstall && gulp ts",
+    "postinstall": "tsd reinstall && gulp ts"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tripl-kn/backend.git"
+    "url": "https://github.com/locator-kn/ark.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tripl-kn/backend/issues"
+    "url": "https://github.com/locator-kn/ark/issues"
   },
-  "homepage": "https://github.com/tripl-kn/backend",
+  "homepage": "https://github.com/locator-kn/ark",
   "dependencies": {
+    "ark-authentication": "^0.3.0",
+    "ark-database": "^1.0.0",
+    "ark-locationpool": "^1.0.0",
+    "ark-staticdata": "^1.1.0",
+    "ark-trip": "^0.1.0",
+    "ark-user": "^0.2.0",
     "blipp": "^2.1.1",
+    "coveralls": "^2.11.2",
     "cradle": "^0.6.9",
     "hapi": "^8.4.0",
     "hapi-swagger": "^0.7.3",
+    "tsd": "^0.5.7",
+    "tv": "^4.1.0",
     "readable-stream": "^1.0.33"
   },
   "devDependencies": {
+    "code": "^1.4.0",
     "gulp": "^3.8.11",
     "gulp-jshint": "^1.9.4",
     "gulp-notify": "^2.2.0",
@@ -33,7 +46,7 @@
     "gulp-tsc": "^0.9.3",
     "gulp-typescript": "^2.5.0",
     "jshint-stylish": "^1.0.1",
-    "lab": "^5.5.1",
+    "lab": "^5.6.1",
     "merge2": "^0.3.1",
     "node-notifier": "^4.1.2",
     "typescript": "1.5.0-alpha"

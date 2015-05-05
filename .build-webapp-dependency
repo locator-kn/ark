@@ -1,0 +1,13 @@
+#!/bin/bash
+cd public/
+echo cleaning up
+rm -rf css/ js/ definitions/ lib/ locale/ templates/ index.html
+git clone https://github.com/locator-kn/web.git
+cd web/
+npm install
+bower install --allow-root
+gulp --live
+pwd
+cd ../..
+mv -f public/web/www/* public/
+rm -rf ./public/web/
