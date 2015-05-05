@@ -15,6 +15,7 @@ var ArkAuth = require('ark-authentication');
 // stream testing
 var stream = require('stream');
 var Joi = require('joi');
+var gm = require('gm');
 var Readable = stream.Readable ||
     require('readable-stream').Readable;
 
@@ -24,7 +25,7 @@ var dbLive = new (cradle.Connection)().database('alice');
 
 // end stream testing
 
-if(!process.env.travis) {
+if (!process.env.travis) {
     var envVariables = require('./../../env.json');
 } else {
     var envVariables = require('./../../placeholderEnv.json');
@@ -97,6 +98,37 @@ server.register({
 
 // stream testing
 server.route({
+    method: 'GET',
+    path: '/selfies',
+    config: {
+        auth: false,
+    },
+    handler: (request, reply) => {
+        var doc = {
+            _id: 'fooDocumentID'
+        };
+        var idData = {
+            id: doc._id
+        };
+
+        var stream = dbLive.getAttachment('fooDocumentIDs', 'locator.png', err => {
+            if (err) {
+                return console.log(err);
+            }
+            console.log('success');
+
+        });
+        stream.on('data', function () {
+            console.log(arguments);
+        });
+
+        var readStream = new Readable().wrap(stream);
+        reply(readStream);
+
+    }
+});
+
+server.route({
     method: 'POST',
     path: '/selfies',
     config: {
@@ -120,8 +152,11 @@ server.route({
                 'Content-Type': 'multipart/form-data'
             };
 
-            // pipe (stream) the image into the db and save it as an attachment
-            request.payload.file.pipe(dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
+            // create readStream
+            var readStream = request.payload.file;
+
+            // create writeStream
+            var writeStream = dbLive.saveAttachment(idData, attachmentData, function (err, reply2) {
                 if (err) {
                     reply({status: err});
                     console.error('cradle', err);
@@ -129,7 +164,15 @@ server.route({
                 }
                 reply({status: 'ok!'});
                 console.dir(reply2)
-            }));
+            });
+
+            gm(readStream)
+                .resize('2000', '2000')
+                .stream()
+                .pipe(writeStream);
+
+            // pipe (stream) the image into the db and save it as an attachment
+            //readStream.pipe(writeStream);
 
         },
         validate: {
