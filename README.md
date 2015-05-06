@@ -24,6 +24,10 @@ npm install
  
 set up database // TODO
 
+ - Set up the web-app
+```bash
+./build-webapp-dependency
+```
  - To run the apllication enter the following in to the terminal:
 ```bash
 gulp
