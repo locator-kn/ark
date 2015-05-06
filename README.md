@@ -7,7 +7,7 @@
 
 # use
 
-> **Prerequisite:** You need to have installed io.js, npm and gulp.
+> **Prerequisite:** You need to have installed io.js, npm, gulp and the GraphickMagics binary.
 
  - Clone this repository
 ```bash
@@ -24,7 +24,7 @@ npm install
  
 set up database // TODO
 
- - To run the apllication enter the following in to the terminal:
+ - To run the application enter the following in to the terminal:
 ```bash
 gulp
 ```
