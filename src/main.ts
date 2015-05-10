@@ -38,10 +38,13 @@ var routeOption = {
 
 var server = new Hapi.Server();
 
-server.connection({port: (process.env.PORT || 3001)});
+server.connection({port: (process.env.PORT || 3001), labels: 'api'});
+server.connection({ port: 3002, labels: 'chat' });
 
+var chatServer = server.select('chat');
+var apiServer = server.select('api');
 
-server.route({
+chatServer.route({
     method: 'GET',
     path: '/{param*}',
     config: {
@@ -55,12 +58,12 @@ server.route({
 });
 
 // register ark plugins without routes
-server.register({
+apiServer.register({
     register: db
 }, db.errorInit);
 
 // register ark plugins with routes (prefix)
-server.register(prefixedArkPlugins, routeOption, err => {
+apiServer.register(prefixedArkPlugins, routeOption, err => {
     if (err) {
         console.error('unable to init plugin:', err);
     }
