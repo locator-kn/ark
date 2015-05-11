@@ -12,16 +12,7 @@ var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 
-// stream testing
-var stream = require('stream');
-var gm = require('gm');
-
-var cradle = require('cradle');
-
-
-// end stream testing
-
-if (!process.env.travis) {
+if(!process.env.travis) {
     var envVariables = require('./../../env.json');
 } else {
     var envVariables = require('./../../placeholderEnv.json');
@@ -90,6 +81,7 @@ server.register({
         console.error('unable to register plugin blipp:', err);
     }
 });
+
 server.start(function () {
     console.log('Server running at:', server.info.uri);
 });
