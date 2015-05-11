@@ -14,14 +14,10 @@ var ArkAuth = require('ark-authentication');
 
 // stream testing
 var stream = require('stream');
-var Joi = require('joi');
 var gm = require('gm');
-var Readable = stream.Readable ||
-    require('readable-stream').Readable;
 
 var cradle = require('cradle');
 
-var dbLive = new (cradle.Connection)().database('alice');
 
 // end stream testing
 
@@ -33,8 +29,7 @@ if (!process.env.travis) {
 
 
 // init ark plugins
-//var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
-var db = new Database('app', envVariables.db, 'http://localhost');
+var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
