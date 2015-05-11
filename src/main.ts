@@ -11,6 +11,7 @@ var User = require('ark-user');
 var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
+var Mailer= require('ark-mailer');
 
 if(!process.env.travis) {
     var envVariables = require('./../../env.json');
@@ -26,9 +27,10 @@ var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
+var mailer  = new Mailer(envVariables.mail);
 
 
-var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth];
+var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer];
 
 var routeOption = {
     routes: {
