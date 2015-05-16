@@ -25,6 +25,7 @@
     "ark-authentication": "latest",
     "ark-database": "latest",
     "ark-locationpool": "latest",
+    "ark-mailer": "latest",
     "ark-staticdata": "latest",
     "ark-trip": "latest",
     "ark-user": "latest",
