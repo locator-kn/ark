@@ -11,30 +11,33 @@ var User = require('ark-user');
 var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
-var Mailer= require('ark-mailer');
+var Mailer = require('ark-mailer');
 
-if(!process.env.travis) {
+if (!process.env.travis) {
     var envVariables = require('./../../env.json');
 } else {
     var envVariables = require('./../../placeholderEnv.json');
 }
 
+// defines
+var uri = 'http://locator.in.htwg-konstanz.de';
+var apiPrefix = '/api/v1';
 
 // init ark plugins
-var db = new Database('app', envVariables.db, 'http://locator.in.htwg-konstanz.de', 5984);
+var db = new Database('app', envVariables.db, uri, 5984);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
-var mailer  = new Mailer(envVariables.mail);
+var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
 
 
 var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer];
 
 var routeOption = {
     routes: {
-        prefix: '/api/v1'
+        prefix: apiPrefix
     }
 };
 
