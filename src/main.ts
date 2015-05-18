@@ -14,15 +14,18 @@ var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 var Mailer = require('ark-mailer');
 
-if (!process.env.travis) {
+var envVariables;
+// ifbuild is triggerd in travis
+if (process.env.travis) {
+    envVariables = require('./../../placeholderEnv.json');
+
+} else {
     // check if gm is installed before starting the server
     if (!which('gm')) {
         throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down');
     }
 
-    var envVariables = require('./../../env.json');
-} else {
-    var envVariables = require('./../../placeholderEnv.json');
+    envVariables = require('./../../env.json');
 }
 
 // defines
