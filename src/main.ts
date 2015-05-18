@@ -1,6 +1,6 @@
 /// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
-var Shelljs = require('shelljs');
+var which = require('shelljs').which;
 
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
@@ -44,8 +44,8 @@ var routeOption = {
 
 
 // check if gm is installed before starting the server
-if (!Shelljs.which('gm')) {
-    throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down')
+if (!which('gm')) {
+    throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down');
 }
 
 var server = new Hapi.Server();
