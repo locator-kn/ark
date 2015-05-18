@@ -1,5 +1,6 @@
 /// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
+var Shelljs = require('shelljs');
 
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
@@ -31,7 +32,7 @@ var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
 var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
-
+// home made plugins
 
 var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer];
 
@@ -41,10 +42,13 @@ var routeOption = {
     }
 };
 
+
+// check if gm is installed before starting the server
+if (!Shelljs.which('gm')) {
+    throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down')
+}
+
 var server = new Hapi.Server();
-
-server.connection({port: (process.env.PORT || 3001)});
-
 
 server.connection({port: (process.env.PORT || 3001)});
 
