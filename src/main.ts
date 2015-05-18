@@ -1,5 +1,6 @@
 /// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
+var which = require('shelljs').which;
 
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
@@ -13,10 +14,18 @@ var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 var Mailer = require('ark-mailer');
 
-if (!process.env.travis) {
-    var envVariables = require('./../../env.json');
+var envVariables;
+// ifbuild is triggerd in travis
+if (process.env.travis) {
+    envVariables = require('./../../placeholderEnv.json');
+
 } else {
-    var envVariables = require('./../../placeholderEnv.json');
+    // check if gm is installed before starting the server
+    if (!which('gm')) {
+        throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down');
+    }
+
+    envVariables = require('./../../env.json');
 }
 
 // defines
@@ -31,7 +40,7 @@ var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
 var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
-
+// home made plugins
 
 var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer];
 
@@ -44,20 +53,6 @@ var routeOption = {
 var server = new Hapi.Server();
 
 server.connection({port: (process.env.PORT || 3001)});
-
-
-server.route({
-    method: 'GET',
-    path: '/{param*}',
-    config: {
-        handler: {
-            directory: {
-                path: 'public'
-            }
-        },
-        auth: false
-    }
-});
 
 // register ark plugins without routes
 server.register({
