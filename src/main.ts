@@ -15,6 +15,11 @@ var ArkAuth = require('ark-authentication');
 var Mailer = require('ark-mailer');
 
 if (!process.env.travis) {
+    // check if gm is installed before starting the server
+    if (!which('gm')) {
+        throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down');
+    }
+
     var envVariables = require('./../../env.json');
 } else {
     var envVariables = require('./../../placeholderEnv.json');
@@ -41,12 +46,6 @@ var routeOption = {
         prefix: apiPrefix
     }
 };
-
-
-// check if gm is installed before starting the server
-if (!which('gm')) {
-    throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down');
-}
 
 var server = new Hapi.Server();
 
