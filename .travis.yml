@@ -4,7 +4,10 @@ node_js:
   - "0.12"
   - "iojs-v1.6.2"
 before_script:
-  - npm install -g gulp tsd lab coveralls
+  - npm install -g gulp
+  - npm install -g tsd
+  - npm install -g lab
+  - npm install -g coveralls
 after_success:
   npm run build
   npm run coveralls
