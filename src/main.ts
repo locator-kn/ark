@@ -13,6 +13,7 @@ var Locationpool = require('ark-locationpool');
 var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 var Mailer = require('ark-mailer');
+var Chat = require('ark-chat');
 
 var envVariables;
 // ifbuild is triggerd in travis
@@ -40,9 +41,10 @@ var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
 var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
+var chat = new Chat();
 // home made plugins
 
-var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer];
+var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer, chat];
 
 var routeOption = {
     routes: {

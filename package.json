@@ -23,6 +23,7 @@
   "homepage": "https://github.com/locator-kn/ark",
   "dependencies": {
     "ark-authentication": "latest",
+    "ark-chat": "^0.1.0",
     "ark-database": "latest",
     "ark-locationpool": "latest",
     "ark-mailer": "latest",
