@@ -14,6 +14,7 @@ var StaticData = require('ark-staticdata');
 var ArkAuth = require('ark-authentication');
 var Mailer = require('ark-mailer');
 var Chat = require('ark-chat');
+var Realtime = require('ark-realtime');
 
 var envVariables;
 // ifbuild is triggerd in travis
@@ -39,12 +40,13 @@ var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
-var arkAuth = new ArkAuth(false, 600000, envVariables.auth);
+var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
 var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
 var chat = new Chat();
+var realtime = new Realtime();
 // home made plugins
 
-var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer, chat];
+var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, realtime, mailer, chat];
 
 var routeOption = {
     routes: {
@@ -54,8 +56,10 @@ var routeOption = {
 
 var server = new Hapi.Server();
 
-server.connection({port: (process.env.PORT || 3001)});
+server.connection({port: (process.env.PORT || 3001)});/*
+server.connection({port: (process.env.PORT || 3002), labels: 'realtime'});*/
 
+//server.register([realtime], realtime.errorInit);
 // register ark plugins without routes
 server.register({
     register: db
@@ -67,6 +71,7 @@ server.register(prefixedArkPlugins, routeOption, err => {
         console.error('unable to init plugin:', err);
     }
 });
+
 
 server.register({
     register: swagger
