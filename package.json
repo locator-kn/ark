@@ -23,11 +23,11 @@
   "homepage": "https://github.com/locator-kn/ark",
   "dependencies": {
     "ark-authentication": "latest",
-    "ark-chat": "^0.1.0",
+    "ark-chat": "latest",
     "ark-database": "latest",
     "ark-locationpool": "latest",
     "ark-mailer": "latest",
-    "ark-realtime": "^0.1.0",
+    "ark-realtime": "latest",
     "ark-staticdata": "latest",
     "ark-trip": "latest",
     "ark-user": "latest",
