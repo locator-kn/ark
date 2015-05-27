@@ -7,14 +7,15 @@
 
 # use
 
-> **Prerequisite:** You need to have installed io.js, npm, gulp and the GraphickMagics binary.
+> **Prerequisite:** You need to have installed io.js, npm, gulp and ImageMagick.
 
  - Clone this repository
 ```bash
 git clone https://github.com/locator-kn/ark.git
 ```
-
- - Navigate to the folder, open the terminal and type:
+```bash
+cd ark
+```
 ```bash
 npm install
 ```
@@ -28,11 +29,11 @@ set up database // TODO
 ```bash
 ./build-webapp-dependency
 ```
- - To run the apllication enter the following in to the terminal:
+ - To run the application, enter the following in to the terminal:
 ```bash
 gulp
 ```
 
 You can now open http://localhost:3001
 
-If you want to see all routes go to http://localhost:3001/documentation
+If you want to see a swagger ui, go to [http://localhost:3001/documentation](http://localhost:3001/documentation)

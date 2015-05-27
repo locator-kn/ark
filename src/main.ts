@@ -22,9 +22,9 @@ if (process.env.travis) {
     envVariables = require('./../../placeholderEnv.json');
 
 } else {
-    // check if gm is installed before starting the server
-    if (!which('gm')) {
-        throw new Error('GraphicksMagic not installed. Unable to run application. Please install it! Server shut down');
+    // check if imageMagick is installed before starting the server
+    if (!which('convert')) {
+        throw new Error('ImageMagick not installed. Unable to run application. Please install it! Server shut down');
     }
 
     envVariables = require('./../../env.json');
