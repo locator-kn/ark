@@ -46,7 +46,8 @@ var chat = new Chat();
 var realtime = new Realtime();
 // home made plugins
 
-var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, realtime, mailer, chat];
+var prefixedArkPlugins = [trip, user, loc, staticData, arkAuth, mailer];
+var realtimePlugins = [realtime, chat];
 
 var routeOption = {
     routes: {
@@ -56,8 +57,8 @@ var routeOption = {
 
 var server = new Hapi.Server();
 
-server.connection({port: (process.env.PORT || 3001)});/*
-server.connection({port: (process.env.PORT || 3002), labels: 'realtime'});*/
+server.connection({port: (process.env.PORT || 3001), labels: 'api'});
+server.connection({port: (process.env.PORT || 3002), labels: 'realtime'});
 
 //server.register([realtime], realtime.errorInit);
 // register ark plugins without routes
@@ -66,7 +67,13 @@ server.register({
 }, db.errorInit);
 
 // register ark plugins with routes (prefix)
-server.register(prefixedArkPlugins, routeOption, err => {
+server.select('api').register(prefixedArkPlugins, routeOption, err => {
+    if (err) {
+        console.error('unable to init plugin:', err);
+    }
+});
+
+server.select('realtime').register(realtimePlugins, routeOption, err => {
     if (err) {
         console.error('unable to init plugin:', err);
     }
