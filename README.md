@@ -13,8 +13,9 @@
 ```bash
 git clone https://github.com/locator-kn/ark.git
 ```
-
- - Navigate to the folder, open the terminal and type:
+```bash
+cd ark
+```
 ```bash
 npm install
 ```
