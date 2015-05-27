@@ -7,7 +7,7 @@
 
 # use
 
-> **Prerequisite:** You need to have installed io.js, npm, gulp and the ImageMagick binary.
+> **Prerequisite:** You need to have installed io.js, npm, gulp and ImageMagick.
 
  - Clone this repository
 ```bash
