@@ -80,9 +80,15 @@ server.select('realtime').register(realtimePlugins, routeOption, err => {
 });
 
 
-server.register([swagger, arkAuth], err => {
+server.register([swagger], err => {
     if (err) {
         console.error('unable to register plugin swagger:', err);
+    }
+});
+
+server.register([arkAuth], routeOption, err => {
+    if (err) {
+        console.error('unable to init plugin:', err);
     }
 });
 
