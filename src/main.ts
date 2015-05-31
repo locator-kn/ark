@@ -33,6 +33,7 @@ if (process.env.travis) {
 // defines
 var uri = 'http://locator.in.htwg-konstanz.de';
 var apiPrefix = '/api/v1';
+var realtimePrefix = apiPrefix + '/r';
 
 // init ark plugins
 var db = new Database('app', envVariables.db, uri, 5984);
@@ -55,6 +56,12 @@ var routeOption = {
     }
 };
 
+var routeOptionsRealtime = {
+    routes: {
+        prefix: realtimePrefix
+    }
+};
+
 var server = new Hapi.Server();
 
 server.connection({port: (process.env.PORT || 3001), labels: 'api'});
@@ -73,7 +80,7 @@ server.select('api').register(prefixedArkPlugins, routeOption, err => {
     }
 });
 
-server.select('realtime').register(realtimePlugins, routeOption, err => {
+server.select('realtime').register(realtimePlugins, routeOptionsRealtime, err => {
     if (err) {
         console.error('unable to init plugin:', err);
     }
