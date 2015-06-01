@@ -107,6 +107,18 @@ server.register({
     }
 });
 
+// Add ability to reply errors with data
+server.ext('onPreResponse', function (request, reply) {
+    var response = request.response;
+    if (!response.isBoom) {
+        return reply.continue();
+    }
+    if (response.data){
+        response.output.payload.data = response.data;
+    }
+    return reply(response);
+});
+
 server.start(function () {
     console.log('Server running at:', server.info.uri);
 });
