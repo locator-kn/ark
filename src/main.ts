@@ -47,7 +47,7 @@ var chat = new Chat();
 var realtime = new Realtime();
 // home made plugins
 
-var prefixedArkPlugins = [trip, user, loc, staticData, mailer];
+var prefixedArkPlugins = [trip, user, loc, staticData];
 var realtimePlugins = [realtime, chat];
 
 var routeOption = {
@@ -93,7 +93,7 @@ server.register([swagger], err => {
     }
 });
 
-server.register([arkAuth], routeOption, err => {
+server.register([arkAuth, mailer], routeOption, err => {
     if (err) {
         console.error('unable to init plugin:', err);
     }
