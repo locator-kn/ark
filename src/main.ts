@@ -113,7 +113,7 @@ server.ext('onPreResponse', function (request, reply) {
     if (!response.isBoom) {
         return reply.continue();
     }
-    if (response.data){
+    if (response.data) {
         response.output.payload.data = response.data;
     }
     return reply(response);
