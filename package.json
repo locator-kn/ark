@@ -9,7 +9,8 @@
     "develop": "gulp",
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls",
     "build": "tsd reinstall && gulp ts",
-    "postinstall": "tsd reinstall && gulp ts"
+    "postinstall": "tsd reinstall && gulp ts",
+    "setup": "iojs setup.js"
   },
   "repository": {
     "type": "git",
