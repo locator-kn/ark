@@ -13,6 +13,7 @@ var trip = new Trip();
 
 console.log('Setting up Database and all needed Views and Data:');
 
+// views
 db.setup(null, function (err, data) {
 
     if (err) {
@@ -22,6 +23,7 @@ db.setup(null, function (err, data) {
     console.log('Database setup successful: ', data);
 });
 
+// trip algo logic view
 db.setup(trip.getSetupData(), function (err, data) {
 
     if (err) {
@@ -30,7 +32,12 @@ db.setup(trip.getSetupData(), function (err, data) {
     }
     console.log('Search-Trip setup successful: ', data)
 });
+
+// no static data setup for now
 return;
+
+
+// static data
 db.setup(data.getSetupData(), function (err, data) {
 
     if (err) {
