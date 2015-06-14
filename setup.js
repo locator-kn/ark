@@ -7,7 +7,7 @@ var uri = 'http://locator.in.htwg-konstanz.de';
 
 // Database plugin
 // TODO: save params in env.json
-var db = new Database('setup', envVariables.db, uri, 5984);
+var db = new Database('app', envVariables.db, uri, 5984);
 var data = new StaticData();
 var trip = new Trip();
 
