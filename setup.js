@@ -13,31 +13,31 @@ var trip = new Trip();
 
 console.log('Setting up Database and all needed Views and Data:');
 
-db.setup(function (err) {
+db.setup(null, function (err, data) {
 
     if (err) {
         console.error('Setting up database in Database-Plugin failed', err);
         return;
     }
-    console.log('Database setup successful');
+    console.log('Database setup successful: ', data);
 });
 
-trip.setup(db, function (err) {
+db.setup(trip.getSetupData(), function (err, data) {
 
     if (err) {
         console.error('Setting up search algo in Trip-Plugin failed', err);
         return;
     }
-    console.log('Search-Trip setup successful')
+    console.log('Search-Trip setup successful: ', data)
 });
-
 return;
-data.setup(db, function (err) {
+db.setup(data.getSetupData(), function (err, data) {
 
     if (err) {
         console.error('Setting up all static data in Static-Data-Plugin failed', err);
         return;
     }
+    console.log('Static-Data setup successful: ', data)
 });
 
 
