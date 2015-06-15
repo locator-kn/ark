@@ -2,6 +2,7 @@
 var Hapi = require('hapi');
 var which = require('shelljs').which;
 
+// convenient plugins for displaying routes
 var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 
@@ -17,7 +18,8 @@ var Chat = require('ark-chat');
 var Realtime = require('ark-realtime');
 
 var envVariables;
-// ifbuild is triggerd in travis
+
+// if build is triggerd in travis
 if (process.env.travis) {
     envVariables = require('./../../placeholderEnv.json');
 
@@ -27,6 +29,7 @@ if (process.env.travis) {
         throw new Error('ImageMagick not installed. Unable to run application. Please install it! Server shut down');
     }
 
+    // production
     envVariables = require('./../../env.json');
 }
 
@@ -36,6 +39,7 @@ var apiPrefix = '/api/v1';
 var realtimePrefix = apiPrefix + '/r';
 
 // init ark plugins
+// TODO: save params in env.json
 var db = new Database('app', envVariables.db, uri, 5984);
 var trip = new Trip();
 var user = new User();
@@ -45,7 +49,6 @@ var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
 var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
 var chat = new Chat();
 var realtime = new Realtime();
-// home made plugins
 
 var prefixedArkPlugins = [trip, user, loc, staticData];
 var realtimePlugins = [realtime, chat];
@@ -108,18 +111,18 @@ server.register({
 });
 
 // Add ability to reply errors with data
-server.ext('onPreResponse', function (request, reply) {
+server.ext('onPreResponse', (request, reply) => {
     var response = request.response;
     if (!response.isBoom) {
         return reply.continue();
     }
-    if (response.data){
+    if (response.data) {
         response.output.payload.data = response.data;
     }
     return reply(response);
 });
 
-server.start(function () {
+server.start(() => {
     console.log('Server running at:', server.info.uri);
 });
 

@@ -4,12 +4,13 @@
   "description": "backend of project locator-kn",
   "main": "index.js",
   "scripts": {
-    "test": "lab -t 80",
+    "test": "lab -t 75",
     "test-cov-html": "lab -r html -o coverage.html",
     "develop": "gulp",
     "coveralls": "lab -r lcov | ./node_modules/.bin/coveralls",
     "build": "tsd reinstall && gulp ts",
-    "postinstall": "tsd reinstall && gulp ts"
+    "postinstall": "tsd reinstall && gulp ts",
+    "setup": "iojs setup.js"
   },
   "repository": {
     "type": "git",
