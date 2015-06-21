@@ -132,6 +132,22 @@ server.ext('onPreResponse', (request, reply) => {
     return reply(response);
 });
 
+var options = {
+    reporters: [{
+        reporter: require('good-console'),
+        requestHeaders: true,
+        requestPayload: true,
+        responsePayload: true,
+        events: {log: '*', response: '*', error: '*', request: '*'}
+    }]
+};
+server.register({
+    register: require('good'),
+    options: options
+}, err => {
+    console.log(err);
+});
+
 server.start(() => {
     console.log('Server running at:', server.info.uri);
 });

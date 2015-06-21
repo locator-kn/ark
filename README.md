@@ -15,15 +15,15 @@ git clone https://github.com/locator-kn/ark.git
 ```
 ```bash
 cd ark
-```
-```bash
 npm install
 ```
 (you might need to fix various errors on Windows systems)
 
  - Now set up the database:
- 
-set up database // TODO
+ Install couchdb and create a new database named 'app'. Then:
+```bash
+npm run setup
+```
 
  - Set up the web-app
 ```bash
@@ -37,3 +37,15 @@ gulp
 You can now open http://localhost:3001
 
 If you want to see a swagger ui, go to [http://localhost:3001/documentation](http://localhost:3001/documentation)
+
+# Documentation
+This application is build on top of [iojs](https://iojs.org/) and used [hapijs](http://hapijs.com/) as the server framework.
+The following plugins were designed and included in the server:
+ - [ark-chat](https://github.com/locator-kn/ark-chat)
+ - [ark-locationpool](https://github.com/locator-kn/ark-locationpool)
+ - [ark-database](https://github.com/locator-kn/ark-database)
+ - [ark-trip](https://github.com/locator-kn/ark-trip)
+ - [ark-user](https://github.com/locator-kn/ark-user)
+ - [ark-mailer](https://github.com/locator-kn/ark-mailer)
+ - [ark-realtime](https://github.com/locator-kn/ark-realtime)
+ - [ark-authentication](https://github.com/locator-kn/ark-authentication)
