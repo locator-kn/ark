@@ -15,15 +15,16 @@ git clone https://github.com/locator-kn/ark.git
 ```
 ```bash
 cd ark
-```
-```bash
 npm install
 ```
 (you might need to fix various errors on Windows systems)
 
  - Now set up the database:
- 
-set up database // TODO
+ Install couchdb and create a new database named 'app'. Then:
+```bash
+cd ark
+npm run setup
+```
 
  - Set up the web-app
 ```bash
