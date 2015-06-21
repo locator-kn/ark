@@ -40,7 +40,7 @@ If you want to see a swagger ui, go to [http://localhost:3001/documentation](htt
 
 # Documentation
 This application is build on top of [iojs](https://iojs.org/) and used [hapijs](http://hapijs.com/) as the server framework.
-The following plugins were design and included in the server:
+The following plugins were designed and included in the server:
  - [ark-chat](https://github.com/locator-kn/ark-chat)
  - [ark-locationpool](https://github.com/locator-kn/ark-locationpool)
  - [ark-database](https://github.com/locator-kn/ark-database)
