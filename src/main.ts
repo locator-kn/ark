@@ -76,14 +76,24 @@ server.register({
     register: db
 }, db.errorInit);
 
-// register ark plugins with routes (prefix)
-server.select('api').register(prefixedArkPlugins, routeOption, err => {
+
+server.select('realtime').register({
+    register: realtime
+}, routeOptionsRealtime, err => {
+    if (err) {
+        console.error('unable to init plugin:', err);
+    }
+});
+server.select('realtime').register({
+    register:chat
+}, routeOptionsRealtime, err => {
     if (err) {
         console.error('unable to init plugin:', err);
     }
 });
 
-server.select('realtime').register(realtimePlugins, routeOptionsRealtime, err => {
+// register ark plugins with routes (prefix)
+server.select('api').register(prefixedArkPlugins, routeOption, err => {
     if (err) {
         console.error('unable to init plugin:', err);
     }
