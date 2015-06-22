@@ -47,7 +47,7 @@ var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
-var mailer = new Mailer(envVariables.mail, uri + apiPrefix);
+var mailer = new Mailer(envVariables.mailgun);
 var chat = new Chat();
 var realtime = new Realtime();
 
@@ -152,7 +152,7 @@ server.register({
 server.start(() => {
     console.log('Database info:', 'app', uri, 5984);
     console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
-    console.log('Mailer info:', envVariables.mail['MAIL_ADDR']);
+    console.log('Mailer info:', envVariables.mailgun['DOMAIN']);
     console.log('Server running at:', server.info.uri);
 });
 
