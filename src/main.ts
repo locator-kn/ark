@@ -18,6 +18,7 @@ var Chat:any = require('ark-chat');
 var Realtime:any = require('ark-realtime');
 
 var envVariables;
+var cookieTtl = 60000000;
 
 // if build is triggerd in travis
 if (process.env.travis) {
@@ -149,6 +150,9 @@ server.register({
 });
 
 server.start(() => {
+    console.log('Database info:', 'app', uri, 5984);
+    console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutest');
+    console.log('Mailer info:', envVariables.mail['MAIL_ADDR']);
     console.log('Server running at:', server.info.uri);
 });
 
