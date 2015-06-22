@@ -151,7 +151,7 @@ server.register({
 
 server.start(() => {
     console.log('Database info:', 'app', uri, 5984);
-    console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutest');
+    console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
     console.log('Mailer info:', envVariables.mail['MAIL_ADDR']);
     console.log('Server running at:', server.info.uri);
 });
