@@ -7,15 +7,15 @@ var swagger = require('hapi-swagger');
 var blipp = require('blipp');
 
 // ark plugins
-var Database = require('ark-database');
-var Trip = require('ark-trip');
-var User = require('ark-user');
-var Locationpool = require('ark-locationpool');
-var StaticData = require('ark-staticdata');
-var ArkAuth = require('ark-authentication');
-var Mailer = require('ark-mailer');
-var Chat = require('ark-chat');
-var Realtime = require('ark-realtime');
+var Database:any = require('ark-database');
+var Trip:any = require('ark-trip');
+var User:any = require('ark-user');
+var Locationpool:any = require('ark-locationpool');
+var StaticData:any = require('ark-staticdata');
+var ArkAuth:any = require('ark-authentication');
+var Mailer:any = require('ark-mailer');
+var Chat:any = require('ark-chat');
+var Realtime:any = require('ark-realtime');
 
 var envVariables;
 
