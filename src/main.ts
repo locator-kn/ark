@@ -121,8 +121,8 @@ server.register({
 });
 
 // Add ability to reply errors with data
-server.ext('onPreResponse', (request, reply) => {
-    var response = request.response;
+server.ext('onPreResponse', (request, reply:any) => {
+    var response:any = request.response;
     if (!response.isBoom) {
         return reply.continue();
     }
