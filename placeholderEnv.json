@@ -14,5 +14,8 @@
         "MAIL_ADDR": "foo@gmail.com",
         "MAIL_PASS": "foo",
         "MAIL_SERVICE": "Gmail"
+    },
+    "mailgun": {
+        "foo": "bar"
     }
 }
