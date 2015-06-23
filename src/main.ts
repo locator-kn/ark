@@ -86,7 +86,7 @@ server.select('realtime').register({
     }
 });
 server.select('realtime').register({
-    register:chat
+    register: chat
 }, routeOptionsRealtime, err => {
     if (err) {
         console.error('unable to init plugin:', err);
@@ -150,7 +150,8 @@ server.register({
 });
 
 server.start(() => {
-    console.log('Database info:', 'app', uri, 5984);
+    console.log('Database ', db.staticdata.db.name, ' running on ',
+        db.staticdata.db.connection.host, ' port:', db.staticdata.db.connection.port);
     console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
     console.log('Mailer info:', envVariables.mailgun['DOMAIN']);
     console.log('Server running at:', server.info.uri);
