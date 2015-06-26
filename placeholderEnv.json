@@ -17,5 +17,8 @@
     },
     "mailgun": {
         "foo": "bar"
+    },
+    "mailgunSandbox": {
+        "foo": "bar"
     }
 }
