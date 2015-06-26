@@ -47,7 +47,7 @@ var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
-var mailer = new Mailer(envVariables.mailgun);
+var mailer = new Mailer(envVariables.mailgunSandbox);
 var chat = new Chat();
 var realtime = new Realtime();
 
