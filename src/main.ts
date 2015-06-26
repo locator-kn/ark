@@ -135,12 +135,12 @@ server.ext('onPreResponse', (request, reply:any) => {
 
 var options = {
     reporters: [{
-        reporter: require('good-file'),
+        reporter: require('good-console'),
         requestHeaders: true,
         requestPayload: true,
         responsePayload: true,
         events: {log: '*', response: '*', error: '*', request: '*'},
-        config: '/var/log/locator/locator.log'
+       // config: '/var/log/locator/locator.log'
     }]
 };
 server.register({
