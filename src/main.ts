@@ -41,7 +41,7 @@ var realtimePrefix = apiPrefix + '/r';
 
 // init ark plugins
 // TODO: save params in env.json
-var db = new Database('app', envVariables.db, uri, 5984);
+var db = new Database('app', envVariables, uri, 5984);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
