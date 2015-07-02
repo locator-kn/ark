@@ -20,5 +20,6 @@
     },
     "mailgunSandbox": {
         "foo": "bar"
-    }
+    },
+    "pass": "foobar"
 }
