@@ -49,7 +49,7 @@ var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
 var mailer = new Mailer(envVariables.mailgun);
 var chat = new Chat();
-var realtime = new Realtime();
+var realtime = new Realtime(envVariables.auth);
 
 var prefixedArkPlugins = [trip, user, loc, staticData];
 var realtimePlugins = [realtime, chat];
