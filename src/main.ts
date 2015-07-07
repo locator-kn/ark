@@ -136,12 +136,12 @@ server.ext('onPreResponse', (request, reply:any) => {
 var options = {
     reporters: [{
         reporter: require('good-file'),
-        requestHeaders: true,
-        requestPayload: true,
-        responsePayload: true,
         events: {log: '*', response: '*', error: '*', request: '*'},
         config: '/var/log/locator/locator.log'
-    }]
+    }],
+    requestHeaders: true,
+    requestPayload: true,
+    responsePayload: true
 };
 server.register({
     register: require('good'),
