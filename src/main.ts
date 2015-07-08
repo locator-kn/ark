@@ -34,6 +34,15 @@ if (process.env.travis) {
     envVariables = require('./../../env.json');
 }
 
+var portIdx = process.argv.indexOf('PORT');
+var port = process.argv[portIdx + 1];
+
+var rportIdx = process.argv.indexOf('RPORT');
+var rport = process.argv[rportIdx + 1];
+
+
+console.log('Port of choice', port);
+console.log('RPort of choice', rport);
 // defines
 var uri = 'http://locator.in.htwg-konstanz.de';
 var apiPrefix = '/api/v1';
@@ -68,8 +77,8 @@ var routeOptionsRealtime = {
 
 var server = new Hapi.Server();
 
-server.connection({port: (process.env.PORT || 3001), labels: 'api'});
-server.connection({port: (process.env.PORT || 3002), labels: 'realtime'});
+server.connection({port: (port || 3001), labels: 'api'});
+server.connection({port: (rport || 3002), labels: 'realtime'});
 
 //server.register([realtime], realtime.errorInit);
 // register ark plugins without routes
