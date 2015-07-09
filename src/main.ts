@@ -169,6 +169,10 @@ var options = {
         reporter: require('good-file'),
         events: {response: '*', log: '*', request: '*'},
         config: '/var/log/locator/locator.log'
+    }, {
+        reporter: require('good-file'),
+        events: {log: 'corrupt'},
+        config: '/var/log/locator/corruptFiles.log'
     }],
     requestHeaders: true,
     requestPayload: true,
@@ -178,7 +182,7 @@ server.register({
     register: require('good'),
     options: options
 }, err => {
-    console.log(err);
+    if (err) console.log(err);
 });
 
 server.start(() => {
