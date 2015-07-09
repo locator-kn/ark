@@ -34,15 +34,27 @@ if (process.env.travis) {
     envVariables = require('./../../env.json');
 }
 
-var portIdx = process.argv.indexOf('PORT');
-var port = process.argv[portIdx + 1];
+var portIdx,
+    port,
+    portExists = process.argv.indexOf('PORT') !== -1;
 
-var rportIdx = process.argv.indexOf('RPORT');
-var rport = process.argv[rportIdx + 1];
+if(portExists){
+    portIdx = process.argv.indexOf('PORT');
+    port = process.argv[portIdx + 1];
+    console.log('Port of choice', port);
+}
+
+var rportIdx,
+    rport,
+    rportExists = process.argv.indexOf('RPORT') !== -1;
+
+if(rportExists) {
+    rportIdx = process.argv.indexOf('RPORT');
+    rport = process.argv[rportIdx + 1];
+    console.log('RPort of choice', rport);
+}
 
 
-console.log('Port of choice', port);
-console.log('RPort of choice', rport);
 // defines
 var uri = 'http://locator.in.htwg-konstanz.de';
 var apiPrefix = '/api/v1';
