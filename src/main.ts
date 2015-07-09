@@ -133,10 +133,32 @@ server.ext('onPreResponse', (request, reply:any) => {
     return reply(response);
 });
 
+// log the payload on error
+server.on('response', (request) => {
+
+    var code = request.response.statusCode;
+    if (code >= 400 && code < 500) {
+        request.log(['ark', 'error', 'payload', '400'], request.payload)
+    } else if (code >= 500) {
+        request.log(['ark', 'error', 'payload', '500'], request.payload)
+    }
+});
+
 var options = {
     reporters: [{
         reporter: require('good-file'),
-        events: {log: '*', response: '*', error: '*', request: '*'},
+        events: {error: '*', request: '500'},
+        config: '/var/log/locator/internalError.log'
+    }, {
+        reporter: require('good-file'),
+        events: {request: '400'},
+        config: '/var/log/locator/clientError.log'
+    }, {
+        reporter: require('good-console'),
+        events: {error: '*', request: '500'}
+    }, {
+        reporter: require('good-file'),
+        events: {response: '*', log: '*', request: '*'},
         config: '/var/log/locator/locator.log'
     }],
     requestHeaders: true,
