@@ -199,12 +199,12 @@ var options = {
         password: 'remove'
     }
 };
-server.register({
+/*server.register({
     register: require('good'),
     options: options
 }, err => {
     if (err) console.log(err);
-});
+});*/
 
 server.start(() => {
     console.log('Database ', db.staticdata.db.name, ' running on ',
