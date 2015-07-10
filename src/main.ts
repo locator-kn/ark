@@ -38,7 +38,7 @@ var portIdx,
     port,
     portExists = process.argv.indexOf('PORT') !== -1;
 
-if(portExists){
+if (portExists) {
     portIdx = process.argv.indexOf('PORT');
     port = process.argv[portIdx + 1];
     console.log('Port of choice', port);
@@ -48,7 +48,7 @@ var rportIdx,
     rport,
     rportExists = process.argv.indexOf('RPORT') !== -1;
 
-if(rportExists) {
+if (rportExists) {
     rportIdx = process.argv.indexOf('RPORT');
     rport = process.argv[rportIdx + 1];
     console.log('RPort of choice', rport);
@@ -157,7 +157,12 @@ server.ext('onPreResponse', (request, reply:any) => {
 // log the payload on error
 server.on('response', (request) => {
 
-    var code = request.response.statusCode;
+    if (request.response) {
+        var code = request.response.statusCode;
+    } else {
+        return
+    }
+    
     if (code >= 400 && code < 500) {
         request.log(['ark', 'error', 'payload', '400'], request.payload)
     } else if (code >= 500) {
