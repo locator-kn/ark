@@ -162,8 +162,8 @@ server.on('response', (request) => {
     } else {
         return
     }
-    
-    if (code >= 400 && code < 500) {
+
+    if (code === 400) {
         request.log(['ark', 'error', 'payload', '400'], request.payload)
     } else if (code >= 500) {
         request.log(['ark', 'error', 'payload', '500'], request.payload)
@@ -193,7 +193,11 @@ var options = {
     }],
     requestHeaders: true,
     requestPayload: true,
-    responsePayload: true
+    responsePayload: true,
+    filter: {
+        file: 'remove',
+        password: 'remove'
+    }
 };
 server.register({
     register: require('good'),
