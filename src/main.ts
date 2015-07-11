@@ -163,8 +163,11 @@ server.on('response', (request) => {
         return
     }
 
-    if (code === 400) {
-        request.log(['ark', 'error', 'payload', '400'], request.payload)
+    if (code === 400 && code < 500) {
+        // don't log files
+        if (!request.payload.file) {
+            request.log(['ark', 'error', 'payload', '400'], request.payload);
+        }
     } else if (code >= 500) {
         request.log(['ark', 'error', 'payload', '500'], request.payload)
     }
@@ -192,19 +195,19 @@ var options = {
         config: '/var/log/locator/corruptFiles.log'
     }],
     requestHeaders: true,
-    requestPayload: true,
+    requestPayload: false,
     responsePayload: true,
     filter: {
         file: 'remove',
         password: 'remove'
     }
 };
-/*server.register({
+server.register({
     register: require('good'),
     options: options
 }, err => {
     if (err) console.log(err);
-});*/
+});
 
 server.start(() => {
     console.log('Database ', db.staticdata.db.name, ' running on ',
