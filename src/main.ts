@@ -165,7 +165,7 @@ server.on('response', (request) => {
 
     if (code === 400 && code < 500) {
         // don't log files
-        if (!request.payload.file) {
+        if (request.payload && !request.payload.file) {
             request.log(['ark', 'error', 'payload', '400'], request.payload);
         }
     } else if (code >= 500) {
