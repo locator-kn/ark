@@ -1,14 +1,12 @@
 var Trip = require('ark-trip');
 var Database = require('ark-database');
-var StaticData = require('ark-staticdata');
 
 var envVariables = require('./env.json');
 var uri = 'http://locator.in.htwg-konstanz.de';
 
 // Database plugin
 // TODO: save params in env.json
-var db = new Database('app', envVariables, 'localhost', 5984); // TODO: create databse if not exist
-var data = new StaticData();
+var db = new Database('app', envVariables, uri, 5984); // TODO: create databse if not exist
 var trip = new Trip();
 
 console.log('Setting up Database and all needed Views and Data:');
@@ -22,7 +20,7 @@ db.setup(null, function (err, data) {
     }
     console.log('Database setup successful: ', data);
 });
-return;
+
 // trip algo logic view
 db.setup(trip.getSetupData(), function (err, data) {
 
@@ -32,19 +30,4 @@ db.setup(trip.getSetupData(), function (err, data) {
     }
     console.log('Search-Trip setup successful: ', data)
 });
-
-// no static data setup for now
-return;
-
-
-// static data
-db.setup(data.getSetupData(), function (err, data) {
-
-    if (err) {
-        console.error('Setting up all static data in Static-Data-Plugin failed', err);
-        return;
-    }
-    console.log('Static-Data setup successful: ', data)
-});
-
 
