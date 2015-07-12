@@ -166,11 +166,11 @@ server.on('response', (request) => {
     if (code === 400 && code < 500) {
         // don't log files
         if (request.payload && !request.payload.file) {
-            request.log(['ark', 'error', 'payload', '400'], request.response);
+            request.log(['ark', 'error', 'response', '400'], request.response);
             request.log(['ark', 'error', 'payload', '400'], request.payload);
         }
     } else if (code >= 500) {
-        request.log(['ark', 'error', 'payload', '500'], request.response);
+        request.log(['ark', 'error', 'response', '500'], request.response);
         request.log(['ark', 'error', 'payload', '500'], request.payload);
     }
 });
