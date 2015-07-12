@@ -7,7 +7,7 @@ var uri = 'http://locator.in.htwg-konstanz.de';
 
 // Database plugin
 // TODO: save params in env.json
-var db = new Database('app', envVariables, uri, 5984); // TODO: create databse if not exist
+var db = new Database('app', envVariables, 'localhost', 5984); // TODO: create databse if not exist
 var data = new StaticData();
 var trip = new Trip();
 
@@ -22,7 +22,7 @@ db.setup(null, function (err, data) {
     }
     console.log('Database setup successful: ', data);
 });
-
+return;
 // trip algo logic view
 db.setup(trip.getSetupData(), function (err, data) {
 

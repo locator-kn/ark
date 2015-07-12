@@ -166,17 +166,19 @@ server.on('response', (request) => {
     if (code === 400 && code < 500) {
         // don't log files
         if (request.payload && !request.payload.file) {
+            request.log(['ark', 'error', 'payload', '400'], request.response);
             request.log(['ark', 'error', 'payload', '400'], request.payload);
         }
     } else if (code >= 500) {
-        request.log(['ark', 'error', 'payload', '500'], request.payload)
+        request.log(['ark', 'error', 'payload', '500'], request.response);
+        request.log(['ark', 'error', 'payload', '500'], request.payload);
     }
 });
 
 var options = {
     reporters: [{
         reporter: require('good-file'),
-        events: {error: '*', request: '500'},
+        events: {error: '*', request: '500', log: 'Error'},
         config: '/var/log/locator/internalError.log'
     }, {
         reporter: require('good-file'),
