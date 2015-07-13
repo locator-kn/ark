@@ -168,6 +168,8 @@ server.on('response', (request) => {
         if (request.payload && !request.payload.file) {
             request.log(['ark', 'error', 'response', '400'], request.response);
             request.log(['ark', 'error', 'payload', '400'], request.payload);
+        } else if (!request.payload) {
+            request.log(['ark', 'error', 'response', '400'], request.response);
         }
     } else if (code >= 500) {
         request.log(['ark', 'error', 'response', '500'], request.response);
