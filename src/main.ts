@@ -196,9 +196,9 @@ var options = {
         events: {log: 'corrupt'},
         config: '/var/log/locator/corruptFiles.log'
     }],
-    requestHeaders: true,
+    requestHeaders: false,
     requestPayload: false,
-    responsePayload: true,
+    responsePayload: false,
     filter: {
         file: 'remove',
         password: 'remove'
