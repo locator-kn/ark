@@ -123,17 +123,21 @@ server.on('response', (request) => {
         return
     }
 
-    if (code >= 400 && code < 500) {
-        request.log(['ark', 'error', 'payload', '400'], request.payload)
-    } else if (code >= 500) {
-        request.log(['ark', 'error', 'payload', '500'], request.payload)
+    if (code === 400 && code < 500) {
+        // don't log files
+        if (request.payload && !request.payload.file) {
+            request.log(['ark', 'error', 'response', '400'], request.response);
+            request.log(['ark', 'error', 'payload', '400'], request.payload);
+        } else if (!request.payload) {
+            request.log(['ark', 'error', 'response', '400'], request.response);
+        }
     }
 });
 
 var options = {
     reporters: [{
         reporter: require('good-file'),
-        events: {error: '*', request: '500'},
+        events: {error: '*', log: 'Error'},
         config: '/var/log/locator/internalError.log'
     }, {
         reporter: require('good-file'),
@@ -151,9 +155,13 @@ var options = {
         events: {log: 'corrupt'},
         config: '/var/log/locator/corruptFiles.log'
     }],
-    requestHeaders: true,
-    requestPayload: true,
-    responsePayload: true
+    requestHeaders: false,
+    requestPayload: false,
+    responsePayload: false,
+    filter: {
+        file: 'remove',
+        password: 'remove'
+    }
 };
 server.register({
     register: require('good'),
