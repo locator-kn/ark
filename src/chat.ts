@@ -9,17 +9,8 @@ var Realtime:any = require('ark-realtime');
 
 var Mailer:any = require('ark-mailer');
 var ArkAuth:any = require('ark-authentication');
-// defines
-var uri = 'http://locator.in.htwg-konstanz.de';
-var apiPrefix = '/api/v1';
-var realtimePrefix = apiPrefix + '/r';
 
-var routeOptionsRealtime = {
-    routes: {
-        prefix: realtimePrefix
-    }
-};
-
+var envVariables;
 
 if (process.env.travis) {
     envVariables = require('./../../placeholderEnv.json');
@@ -34,20 +25,29 @@ if (process.env.travis) {
     envVariables = require('./../../env.json');
 }
 
-var envVariables,
-    rport,
-    cookieTtl = 60000;
+// defines
+var uri = envVariables['db']['uri'] || 'http://locator.in.htwg-konstanz.de';
+var apiPrefix = '/api/v1';
+var realtimePrefix = apiPrefix + '/r';
 
-var db = new Database('app', envVariables, uri, 5984);
+var routeOptionsRealtime = {
+    routes: {
+        prefix: realtimePrefix
+    }
+};
+var rport;
+var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
+
+var db = new Database('app', envVariables, uri, envVariables['db']['port']);
 
 var mailer = new Mailer(envVariables.mailgun);
 var chat = new Chat();
 var realtime = new Realtime(envVariables.auth);
 
-var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
+var arkAuth = new ArkAuth(false, cookieTtl, envVariables.auth);
 
 var server = new Hapi.Server();
-server.connection({port: (rport || 3002), labels: 'realtime'});
+server.connection({port: (envVariables['defaults']['ark_realtime_port'] || 3002), labels: 'realtime'});
 
 server.register({
     register: db
