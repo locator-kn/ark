@@ -29,6 +29,9 @@ gulp.task('ts', function () {
         .pipe(ts(tsProjectTripl));
 
     tsResult._events.error[0] = function (error) {
+        if(!error || !error.__safety || !error.__safety.toString) {
+            return;
+        }
         notifier.notify({
             'title': 'Compilation error',
             'message': error.__safety.toString(),
