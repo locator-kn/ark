@@ -197,11 +197,7 @@ var options = {
     }],
     requestHeaders: false,
     requestPayload: false,
-    responsePayload: false,
-    filter: {
-        file: 'remove',
-        password: 'remove'
-    }
+    responsePayload: false
 };
 server.register({
     register: require('good'),
