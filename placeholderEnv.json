@@ -8,7 +8,9 @@
     },
     "db": {
         "COUCH_USERNAME": "foo",
-        "COUCH_PASSWORD": "foo"
+        "COUCH_PASSWORD": "foo",
+        "port": 5984,
+        "uri": "http://localhost"
     },
     "mail": {
         "MAIL_ADDR": "foo@gmail.com",
