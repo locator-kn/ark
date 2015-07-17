@@ -14,11 +14,8 @@ var Locationpool:any = require('ark-locationpool');
 var StaticData:any = require('ark-staticdata');
 var ArkAuth:any = require('ark-authentication');
 var Mailer:any = require('ark-mailer');
-var Chat:any = require('ark-chat');
-var Realtime:any = require('ark-realtime');
 
 var envVariables;
-var cookieTtl = 60000000;
 
 // if build is triggerd in travis
 if (process.env.travis) {
@@ -33,10 +30,11 @@ if (process.env.travis) {
     // production
     envVariables = require('./../../env.json');
 }
+var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
 
-var portIdx,
-    port,
-    portExists = process.argv.indexOf('PORT') !== -1;
+var portIdx;
+var port = envVariables['defaults']['ark_port'];
+var portExists = process.argv.indexOf('PORT') !== -1;
 
 if (portExists) {
     portIdx = process.argv.indexOf('PORT');
@@ -44,36 +42,21 @@ if (portExists) {
     console.log('Port of choice', port);
 }
 
-var rportIdx,
-    rport,
-    rportExists = process.argv.indexOf('RPORT') !== -1;
-
-if (rportExists) {
-    rportIdx = process.argv.indexOf('RPORT');
-    rport = process.argv[rportIdx + 1];
-    console.log('RPort of choice', rport);
-}
-
-
 // defines
-var uri = 'http://locator.in.htwg-konstanz.de';
+var uri = envVariables['db']['uri'] || 'http://locator.in.htwg-konstanz.de';
 var apiPrefix = '/api/v1';
-var realtimePrefix = apiPrefix + '/r';
 
 // init ark plugins
 // TODO: save params in env.json
-var db = new Database('app', envVariables, uri, 5984);
+var db = new Database('app', envVariables, uri, envVariables['db']['port']);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
-var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
+var arkAuth = new ArkAuth(false, cookieTtl, envVariables.auth);
 var mailer = new Mailer(envVariables.mailgun);
-var chat = new Chat();
-var realtime = new Realtime(envVariables.auth);
 
 var prefixedArkPlugins = [trip, user, loc, staticData];
-var realtimePlugins = [realtime, chat];
 
 var routeOption = {
     routes: {
@@ -81,38 +64,15 @@ var routeOption = {
     }
 };
 
-var routeOptionsRealtime = {
-    routes: {
-        prefix: realtimePrefix
-    }
-};
-
 var server = new Hapi.Server();
 
 server.connection({port: (port || 3001), labels: 'api'});
-server.connection({port: (rport || 3002), labels: 'realtime'});
 
 //server.register([realtime], realtime.errorInit);
 // register ark plugins without routes
 server.register({
     register: db
 }, db.errorInit);
-
-
-server.select('realtime').register({
-    register: realtime
-}, routeOptionsRealtime, err => {
-    if (err) {
-        console.error('unable to init plugin:', err);
-    }
-});
-server.select('realtime').register({
-    register: chat
-}, routeOptionsRealtime, err => {
-    if (err) {
-        console.error('unable to init plugin:', err);
-    }
-});
 
 // register ark plugins with routes (prefix)
 server.select('api').register(prefixedArkPlugins, routeOption, err => {

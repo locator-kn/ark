@@ -8,7 +8,9 @@
     },
     "db": {
         "COUCH_USERNAME": "foo",
-        "COUCH_PASSWORD": "foo"
+        "COUCH_PASSWORD": "foo",
+        "port": 5984,
+        "uri": "http://localhost"
     },
     "mail": {
         "MAIL_ADDR": "foo@gmail.com",
@@ -21,5 +23,10 @@
     "mailgunSandbox": {
         "foo": "bar"
     },
-    "pass": "foobar"
+    "pass": "foobar",
+    "defaults": {
+        "cookie_ttl": 123123123,
+        "ark_port": 8080,
+        "ark_realtime_port": 8081
+    }
 }
