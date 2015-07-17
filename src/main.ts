@@ -34,6 +34,27 @@ if (process.env.travis) {
     envVariables = require('./../../env.json');
 }
 
+var portIdx,
+    port,
+    portExists = process.argv.indexOf('PORT') !== -1;
+
+if (portExists) {
+    portIdx = process.argv.indexOf('PORT');
+    port = process.argv[portIdx + 1];
+    console.log('Port of choice', port);
+}
+
+var rportIdx,
+    rport,
+    rportExists = process.argv.indexOf('RPORT') !== -1;
+
+if (rportExists) {
+    rportIdx = process.argv.indexOf('RPORT');
+    rport = process.argv[rportIdx + 1];
+    console.log('RPort of choice', rport);
+}
+
+
 // defines
 var uri = 'http://locator.in.htwg-konstanz.de';
 var apiPrefix = '/api/v1';
@@ -41,15 +62,15 @@ var realtimePrefix = apiPrefix + '/r';
 
 // init ark plugins
 // TODO: save params in env.json
-var db = new Database('app', envVariables, 'localhost', 5984);
+var db = new Database('app', envVariables, uri, 5984);
 var trip = new Trip();
 var user = new User();
 var loc = new Locationpool();
 var staticData = new StaticData();
 var arkAuth = new ArkAuth(false, 60000000, envVariables.auth);
-var mailer = new Mailer(envVariables.mailgunSandbox);
+var mailer = new Mailer(envVariables.mailgun);
 var chat = new Chat();
-var realtime = new Realtime();
+var realtime = new Realtime(envVariables.auth);
 
 var prefixedArkPlugins = [trip, user, loc, staticData];
 var realtimePlugins = [realtime, chat];
@@ -68,8 +89,8 @@ var routeOptionsRealtime = {
 
 var server = new Hapi.Server();
 
-server.connection({port: (process.env.PORT || 3001), labels: 'api'});
-server.connection({port: (process.env.PORT || 3002), labels: 'realtime'});
+server.connection({port: (port || 3001), labels: 'api'});
+server.connection({port: (rport || 3002), labels: 'realtime'});
 
 //server.register([realtime], realtime.errorInit);
 // register ark plugins without routes
@@ -133,21 +154,56 @@ server.ext('onPreResponse', (request, reply:any) => {
     return reply(response);
 });
 
+// log the payload on error
+server.on('response', (request) => {
+
+    if (request.response) {
+        var code = request.response.statusCode;
+    } else {
+        return
+    }
+
+    if (code === 400 && code < 500) {
+        // don't log files
+        if (request.payload && !request.payload.file) {
+            request.log(['ark', 'error', 'response', '400'], request.response);
+            request.log(['ark', 'error', 'payload', '400'], request.payload);
+        } else if (!request.payload) {
+            request.log(['ark', 'error', 'response', '400'], request.response);
+        }
+    }
+});
+
 var options = {
     reporters: [{
+        reporter: require('good-file'),
+        events: {error: '*', log: 'Error'},
+        config: '/var/log/locator/internalError.log'
+    }, {
+        reporter: require('good-file'),
+        events: {request: '400'},
+        config: '/var/log/locator/clientError.log'
+    }, {
         reporter: require('good-console'),
-        requestHeaders: true,
-        requestPayload: true,
-        responsePayload: true,
-        events: {log: '*', response: '*', error: '*', request: '*'},
-       // config: '/var/log/locator/locator.log'
-    }]
+        events: {error: '*', request: '500'}
+    }, {
+        reporter: require('good-file'),
+        events: {response: '*', log: '*', request: '*'},
+        config: '/var/log/locator/locator.log'
+    }, {
+        reporter: require('good-file'),
+        events: {log: 'corrupt'},
+        config: '/var/log/locator/corruptFiles.log'
+    }],
+    requestHeaders: false,
+    requestPayload: false,
+    responsePayload: false
 };
 server.register({
     register: require('good'),
     options: options
 }, err => {
-    console.log(err);
+    if (err) console.log(err);
 });
 
 server.start(() => {
