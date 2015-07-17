@@ -176,28 +176,12 @@ server.on('response', (request) => {
 
 var options = {
     reporters: [{
-        reporter: require('good-file'),
-        events: {error: '*', log: 'Error'},
-        config: '/var/log/locator/internalError.log'
-    }, {
-        reporter: require('good-file'),
-        events: {request: '400'},
-        config: '/var/log/locator/clientError.log'
-    }, {
         reporter: require('good-console'),
-        events: {error: '*', request: '500'}
-    }, {
-        reporter: require('good-file'),
-        events: {response: '*', log: '*', request: '*'},
-        config: '/var/log/locator/locator.log'
-    }, {
-        reporter: require('good-file'),
-        events: {log: 'corrupt'},
-        config: '/var/log/locator/corruptFiles.log'
+        events: {error: '*', request: '*', log: '*', respnonse: '*'}
     }],
-    requestHeaders: false,
-    requestPayload: false,
-    responsePayload: false
+    requestHeaders: true,
+    requestPayload: true,
+    responsePayload: true
 };
 server.register({
     register: require('good'),
