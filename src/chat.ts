@@ -82,6 +82,18 @@ server.register({
     }
 });
 
+// Add ability to reply errors with data
+server.ext('onPreResponse', (request, reply:any) => {
+    var response:any = request.response;
+    if (!response.isBoom) {
+        return reply.continue();
+    }
+    if (response.data) {
+        response.output.payload.data = response.data;
+    }
+    return reply(response);
+});
+
 
 server.start(() => {
     console.log('Database ', db.staticdata.db.name, ' running on ',
