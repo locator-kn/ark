@@ -166,7 +166,10 @@ server.register({
     if (err) console.log(err);
 });
 
-server.start(() => {
+server.start(err => {
+    if (err) {
+        return console.error('error starting server:', err);
+    }
     console.log('Database ', db.staticdata.db.name, ' running on ',
         db.staticdata.db.connection.host, ' port:', db.staticdata.db.connection.port);
     console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
