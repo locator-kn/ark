@@ -10,7 +10,7 @@
             "instances": 0,
             "min_uptime": "2s",
             "max_restarts": 15,
-            "max_memory_restart": "200M", //TODO
+            "max_memory_restart": "300M", //TODO
             "watch": false,
             "merge_logs": true,
             "exec_interpreter": "node",
@@ -26,7 +26,7 @@
             "out_file": "/var/log/locator/ark_chat.stdout.log",
             "min_uptime": "2s",
             "max_restarts": 15,
-            "max_memory_restart": "200M", //TODO
+            "max_memory_restart": "300M", //TODO
             "watch": false,
             "merge_logs": true,
             "exec_interpreter": "node",
