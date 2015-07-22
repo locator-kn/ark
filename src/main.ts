@@ -114,43 +114,32 @@ server.ext('onPreResponse', (request, reply:any) => {
     return reply(response);
 });
 
-// log the payload on error
-server.on('response', (request) => {
-
-    if (request.response) {
-        var code = request.response.statusCode;
-    } else {
-        return
-    }
-
-    if (code === 400 && code < 500) {
-        // don't log files
-        if (request.payload && !request.payload.file) {
-            request.log(['ark', 'error', 'response', '400'], request.response);
-            request.log(['ark', 'error', 'payload', '400'], request.payload);
-        } else if (!request.payload) {
-            request.log(['ark', 'error', 'response', '400'], request.response);
-        }
-    }
+server.on('log', (event, tag) => {
+    console.log(event)
 });
 
 var options = {
     reporters: [{
         reporter: require('good-console'),
-        events: {error: '*', request: '*', log: '*', respnonse: '*'}
-    }],
-    requestHeaders: true,
-    requestPayload: true,
-    responsePayload: true
+        events: {log: '*', response: '*', error: '*', request: '*'}
+    }]
 };
+
 server.register({
     register: require('good'),
     options: options
 }, err => {
-    if (err) console.log(err);
+
+    if (err) {
+        return console.error(err);
+    }
 });
 
-server.start(() => {
+
+server.start(err => {
+    if (err) {
+        return console.error('error starting server:', err);
+    }
     console.log('Database ', db.staticdata.db.name, ' running on ',
         db.staticdata.db.connection.host, ' port:', db.staticdata.db.connection.port);
     console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
