@@ -25,6 +25,7 @@
             "error_file": "/var/log/locator/ark_chat.stderr.log",
             "out_file": "/var/log/locator/ark_chat.stdout.log",
             "min_uptime": "2s",
+            "max_memory_restart": "900M",
             "max_restarts": 15,
             "watch": false,
             "merge_logs": true,
