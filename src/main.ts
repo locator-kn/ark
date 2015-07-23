@@ -114,10 +114,6 @@ server.ext('onPreResponse', (request, reply:any) => {
     return reply(response);
 });
 
-server.on('log', (event, tag) => {
-    console.log(event)
-});
-
 var options = {
     reporters: [{
         reporter: require('good-console'),
