@@ -2,7 +2,7 @@ var Trip = require('ark-trip');
 var Database = require('ark-database');
 
 var envVariables = require('./env.json');
-var uri = 'http://locator.in.htwg-konstanz.de';
+var uri = 'http://localhost';
 
 // Database plugin
 // TODO: save params in env.json
