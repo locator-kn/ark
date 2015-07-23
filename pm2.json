@@ -15,7 +15,8 @@
             "merge_logs": true,
             "exec_interpreter": "node",
             "exec_mode": "cluster",
-            "autorestart": true
+            "autorestart": true,
+            "vizion": false
         },
         {
             "name": "ark_chat",
@@ -31,7 +32,8 @@
             "merge_logs": true,
             "exec_interpreter": "node",
             "exec_mode": "fork",
-            "autorestart": true
+            "autorestart": true,
+            "vizion": false
         }
     ]
 }
