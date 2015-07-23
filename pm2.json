@@ -1,0 +1,37 @@
+{
+    "apps": [
+        {
+            "name": "ark_main",
+            "cwd": "/home/locator/ark",
+            "script": "/home/locator/ark/index.js",
+            "log_date_format": "YYYY-MM-DD HH:mm Z",
+            "error_file": "/var/log/locator/ark_main.stderr.log",
+            "out_file": "/var/log/locator/ark_main.stdout.log",
+            "instances": 0,
+            "min_uptime": "2s",
+            "max_restarts": 15,
+            "max_memory_restart": "300M",
+            "watch": false,
+            "merge_logs": true,
+            "exec_interpreter": "node",
+            "exec_mode": "cluster",
+            "autorestart": true
+        },
+        {
+            "name": "ark_chat",
+            "cwd": "/home/locator/ark",
+            "script": "/home/locator/ark/chat.js",
+            "log_date_format": "YYYY-MM-DD HH:mm Z",
+            "error_file": "/var/log/locator/ark_chat.stderr.log",
+            "out_file": "/var/log/locator/ark_chat.stdout.log",
+            "min_uptime": "2s",
+            "max_memory_restart": "900M",
+            "max_restarts": 15,
+            "watch": false,
+            "merge_logs": true,
+            "exec_interpreter": "node",
+            "exec_mode": "fork",
+            "autorestart": true
+        }
+    ]
+}
