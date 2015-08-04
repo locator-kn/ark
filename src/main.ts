@@ -1,106 +1,95 @@
 /// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
-var which = require('shelljs').which;
 
 // convenient plugins for displaying routes
 var swagger = require('hapi-swagger');
-var blipp = require('blipp');
 
-// ark plugins
-var Database:any = require('ark-database');
-var Trip:any = require('ark-trip');
-var User:any = require('ark-user');
-var Locationpool:any = require('ark-locationpool');
-var StaticData:any = require('ark-staticdata');
-var ArkAuth:any = require('ark-authentication');
-var Mailer:any = require('ark-mailer');
+// Microservice Plugin
+var Chairo = require('chairo');
 
+// home made plugins
+var arkPlugins = require('./plugins.js');
+
+// parse env values
 var envVariables;
-
-// if build is triggerd in travis
-if (process.env.travis) {
+if (process.env.travis) { // travis
     envVariables = require('./../../placeholderEnv.json');
-
 } else {
+    envVariables = require('./../../env.json');
+
     // check if imageMagick is installed before starting the server
-    if (!which('convert')) {
+    if (!(require('shelljs').which('convert'))) {
         throw new Error('ImageMagick not installed. Unable to run application. Please install it! Server shut down');
     }
-
-    // production
-    envVariables = require('./../../env.json');
-}
-var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
-
-var portIdx;
-var port = envVariables['defaults']['ark_port'];
-var portExists = process.argv.indexOf('PORT') !== -1;
-
-if (portExists) {
-    portIdx = process.argv.indexOf('PORT');
-    port = process.argv[portIdx + 1];
-    console.log('Port of choice', port);
 }
 
 // defines
-var uri = envVariables['db']['uri'] || 'http://locator.in.htwg-konstanz.de';
 var apiPrefix = '/api/v1';
+var realtimePrefix = apiPrefix + '/r';
 
-// init ark plugins
-// TODO: save params in env.json
-var db = new Database('app', envVariables, uri, envVariables['db']['port']);
-var trip = new Trip();
-var user = new User();
-var loc = new Locationpool();
-var staticData = new StaticData();
-var arkAuth = new ArkAuth(false, cookieTtl, envVariables.auth);
-var mailer = new Mailer(envVariables.mailgun);
-
-var prefixedArkPlugins = [trip, user, loc, staticData];
-
-var routeOption = {
+var routeOptionsRealtime = {
+    routes: {
+        prefix: realtimePrefix
+    }
+};
+var routePrefix = {
     routes: {
         prefix: apiPrefix
     }
 };
 
+// set up server
 var server = new Hapi.Server();
+server.connection({port: 3001, labels: 'api'});
+server.connection({port: 3002, labels: 'realtime'});
 
-server.connection({port: (port || 3001), labels: 'api'});
-
-//server.register([realtime], realtime.errorInit);
-// register ark plugins without routes
-server.register({
-    register: db
-}, db.errorInit);
-
-// register ark plugins with routes (prefix)
-server.select('api').register(prefixedArkPlugins, routeOption, err => {
+server.register([Chairo, swagger], err => {
     if (err) {
-        console.error('unable to init plugin:', err);
+        throw err;
     }
+
+    // Add a Seneca action
+
+    var id = 0;
+    server.seneca.add({generate: 'id'}, function (message, next) {
+
+        return next(null, {id: ++id});
+    });
+
+    // register plugins
+    server.register(arkPlugins.getPlugins(envVariables), err => {
+        if (err) {
+            console.error('unable to init plugin: ', err)
+        }
+    });
+
+    // register ark plugins with routes (prefix)
+    server.select('api').register(arkPlugins.getPrefixPlugins(), routePrefix, err => {
+        if (err) {
+            console.error('unable to init plugin:', err);
+        }
+    });
+
+    // register realtime plugins
+    server.select('realtime').register(arkPlugins.getRealtimePlugins(envVariables), routeOptionsRealtime, err => {
+        if (err) {
+            console.error('unable to init plugin:', err);
+        }
+    });
 });
 
 
-server.register([swagger], err => {
-    if (err) {
-        console.error('unable to register plugin swagger:', err);
+server.route({
+    method: 'GET',
+    path: '/id',
+    handler: function (request, reply) {
+
+        // Reply using a Seneca action
+
+        return reply.act({generate: 'id'});
     }
 });
 
-server.register([arkAuth, mailer], routeOption, err => {
-    if (err) {
-        console.error('unable to init plugin:', err);
-    }
-});
-
-server.register({
-    register: blipp
-}, err => {
-    if (err) {
-        console.error('unable to register plugin blipp:', err);
-    }
-});
 
 // Add ability to reply errors with data
 server.ext('onPreResponse', (request, reply:any) => {
@@ -114,16 +103,15 @@ server.ext('onPreResponse', (request, reply:any) => {
     return reply(response);
 });
 
-var options = {
-    reporters: [{
-        reporter: require('good-console'),
-        events: {log: '*', response: '*', error: '*', request: '*'}
-    }]
-};
-
+// logging stuff
 server.register({
     register: require('good'),
-    options: options
+    options: {
+        reporters: [{
+            reporter: require('good-console'),
+            events: {log: '*', response: '*', error: '*', request: '*'}
+        }]
+    }
 }, err => {
 
     if (err) {
@@ -136,10 +124,6 @@ server.start(err => {
     if (err) {
         return console.error('error starting server:', err);
     }
-    console.log('Database ', db.staticdata.db.name, ' running on ',
-        db.staticdata.db.connection.host, ' port:', db.staticdata.db.connection.port);
-    console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
-    console.log('Mailer info:', envVariables.mailgun['DOMAIN']);
     console.log('Server running at:', server.info.uri);
 });
 
