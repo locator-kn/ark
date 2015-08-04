@@ -33,6 +33,7 @@
     "ark-trip": "latest",
     "ark-user": "latest",
     "blipp": "^2.1.1",
+    "chairo": "0.0.1",
     "coveralls": "^2.11.2",
     "good": "^6.3.0",
     "good-console": "^5.0.2",
