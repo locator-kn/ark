@@ -9,22 +9,6 @@ var Mailer:any = require('ark-mailer');
 var Chat:any = require('ark-chat');
 var Realtime:any = require('ark-realtime');
 
-// parse env values
-var envVariables;
-if (process.env.travis) { // travis
-    envVariables = require('./../../placeholderEnv.json');
-} else {
-    envVariables = require('./../../env.json');
-
-    // check if imageMagick is installed before starting the server
-    if (!(require('shelljs').which('convert'))) {
-        throw new Error('ImageMagick not installed. Unable to run application. Please install it! Server shut down');
-    }
-}
-
-var uri = envVariables['db']['uri'] || 'http://locator.in.htwg-konstanz.de';
-var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
-
 
 exports.getPrefixPlugins = () => {
     var trip = new Trip();
@@ -35,15 +19,24 @@ exports.getPrefixPlugins = () => {
     return [trip, user, loc, staticData];
 };
 
-exports.getPlugins = () => {
+exports.getPlugins = (envVariables) => {
+
+    var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
+    var uri = envVariables['db']['uri'] || 'http://locator.in.htwg-konstanz.de';
+
     var arkAuth = new ArkAuth(false, cookieTtl, envVariables.auth);
     var mailer = new Mailer(envVariables.mailgun);
     var db = new Database('app', envVariables, uri, envVariables['db']['port']);
 
+    console.log('Authentication cookie ttl:', cookieTtl / 3600000, 'minutes');
+    console.log('Database ', db.staticdata.db.name, ' running on ',
+        db.staticdata.db.connection.host, ' port:', db.staticdata.db.connection.port);
+    console.log('Mailer info:', envVariables.mailgun['DOMAIN']);
+
     return [db, arkAuth, mailer]
 };
 
-exports.getRealtimePlugins = () => {
+exports.getRealtimePlugins = (envVariables) => {
 
     var chat = new Chat();
     var realtime = new Realtime(envVariables.auth);
