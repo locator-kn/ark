@@ -28,8 +28,10 @@ var server = new Hapi.Server();
 server.connection({port: 3001, labels: 'api'});
 server.connection({port: 3002, labels: 'realtime'});
 
-// register all needed plugins
-server.register([Chairo, swagger], err => {
+var senecaOptions = {log: 'silent'}; // seneca has the tendency to log EVERYTHING
+
+// Register plugins
+server.register([{register: Chairo, options: senecaOptions}, {register: swagger}], err => {
 
     if (err) {
         throw err;
@@ -66,19 +68,6 @@ server.register([Chairo, swagger], err => {
             console.error('unable to init plugin:', err);
         }
     });
-});
-
-
-// dummy route
-server.route({
-    method: 'GET',
-    path: '/id',
-    handler: function (request, reply) {
-
-        // Reply using a Seneca action
-
-        return reply.act({generate: 'id'});
-    }
 });
 
 
