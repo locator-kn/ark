@@ -1,11 +1,15 @@
-// ark plugins
+// core plugins with routes
 var Trip:any = require('ark-trip');
 var User:any = require('ark-user');
 var Locationpool:any = require('ark-locationpool');
 var StaticData:any = require('ark-staticdata');
+
+// general purpose plugins
 var Database:any = require('ark-database');
 var ArkAuth:any = require('ark-authentication');
 var Mailer:any = require('ark-mailer');
+
+// realtime plugins
 var Chat:any = require('ark-chat');
 var Realtime:any = require('ark-realtime');
 
@@ -19,7 +23,7 @@ exports.getPrefixPlugins = () => {
     return [trip, user, loc, staticData];
 };
 
-exports.getPlugins = (envVariables) => {
+exports.getGeneralPlugins = (envVariables) => {
 
     var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
     var uri = envVariables['db']['uri'] || 'http://locator.in.htwg-konstanz.de';

@@ -10,7 +10,7 @@ var Chairo = require('chairo');
 // home made plugins
 var arkPlugins = require('./plugins.js');
 
-// parse env values
+// parse env values and check if on travis
 var envVariables;
 if (process.env.travis) { // travis
     envVariables = require('./../../placeholderEnv.json');
@@ -23,55 +23,45 @@ if (process.env.travis) { // travis
     }
 }
 
-// defines
-var apiPrefix = '/api/v1';
-var realtimePrefix = apiPrefix + '/r';
-
-var routeOptionsRealtime = {
-    routes: {
-        prefix: realtimePrefix
-    }
-};
-var routePrefix = {
-    routes: {
-        prefix: apiPrefix
-    }
-};
-
 // set up server
 var server = new Hapi.Server();
 server.connection({port: 3001, labels: 'api'});
 server.connection({port: 3002, labels: 'realtime'});
 
+// register all needed plugins
 server.register([Chairo, swagger], err => {
+
     if (err) {
         throw err;
     }
 
-    // Add a Seneca action
-
-    var id = 0;
-    server.seneca.add({generate: 'id'}, function (message, next) {
-
-        return next(null, {id: ++id});
-    });
-
     // register plugins
-    server.register(arkPlugins.getPlugins(envVariables), err => {
+    server.register(arkPlugins.getGeneralPlugins(envVariables), err => {
+
         if (err) {
             console.error('unable to init plugin: ', err)
         }
     });
 
     // register ark plugins with routes (prefix)
-    server.select('api').register(arkPlugins.getPrefixPlugins(), routePrefix, err => {
+    server.select('api').register(arkPlugins.getPrefixPlugins(), {
+        routes: {
+            prefix: '/api/v1'
+        }
+    }, err => {
+
         if (err) {
             console.error('unable to init plugin:', err);
         }
     });
 
     // register realtime plugins
-    server.select('realtime').register(arkPlugins.getRealtimePlugins(envVariables), routeOptionsRealtime, err => {
+    server.select('realtime').register(arkPlugins.getRealtimePlugins(envVariables), {
+        routes: {
+            prefix: '/api/v1/r'
+        }
+    }, err => {
+
         if (err) {
             console.error('unable to init plugin:', err);
         }
@@ -79,6 +69,7 @@ server.register([Chairo, swagger], err => {
 });
 
 
+// dummy route
 server.route({
     method: 'GET',
     path: '/id',
@@ -120,6 +111,7 @@ server.register({
 });
 
 
+// start the server
 server.start(err => {
     if (err) {
         return console.error('error starting server:', err);
