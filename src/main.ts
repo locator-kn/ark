@@ -37,6 +37,13 @@ server.register([{register: Chairo, options: senecaOptions}, {register: swagger}
         throw err;
     }
 
+    server.seneca.add({do: 'it'}, (message, next) => {
+
+        console.log(1);
+        return next(null, {message: message})
+    });
+
+
     // register plugins
     server.register(arkPlugins.getGeneralPlugins(envVariables), err => {
 
@@ -68,6 +75,17 @@ server.register([{register: Chairo, options: senecaOptions}, {register: swagger}
             console.error('unable to init plugin:', err);
         }
     });
+});
+
+server.route({
+    method: 'GET',
+    path: '/do',
+    config: {
+        handler: (request, reply) => {
+            reply.act({do: 'it', foo: 'bar', more: {some: 'thing'}})
+        },
+        tags: ['api', 'test']
+    }
 });
 
 
