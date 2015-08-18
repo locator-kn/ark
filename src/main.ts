@@ -1,10 +1,8 @@
 /// <reference path="../typings/hapi/hapi.d.ts" />
 var Hapi = require('hapi');
-var which = require('shelljs').which;
 
 // convenient plugins for displaying routes
 var swagger = require('hapi-swagger');
-var blipp = require('blipp');
 
 // Microservice Plugin
 var Chairo = require('chairo');
@@ -18,8 +16,6 @@ if (process.env.travis) { // travis
     envVariables = require('./../../placeholderEnv.json');
 
 } else {
-    envVariables = require('./../../env.json');
-
     // check if imageMagick is installed before starting the server
     if (!(require('shelljs').which('convert'))) {
         throw new Error('ImageMagick not installed. Unable to run application. Please install it! Server shut down');
@@ -28,7 +24,6 @@ if (process.env.travis) { // travis
     // production
     envVariables = require('./../../env.json');
 }
-var cookieTtl = envVariables['defaults']['cookie_ttl'] || 31556926000;
 
 // set up server
 var server = new Hapi.Server();
@@ -49,8 +44,6 @@ server.register([{register: Chairo, options: senecaOptions}, {register: swagger}
         console.log(1);
         return next(null, {message: message})
     });
-
-var server = new Hapi.Server();
 
     // register plugins
     server.register(arkPlugins.getGeneralPlugins(envVariables), err => {
