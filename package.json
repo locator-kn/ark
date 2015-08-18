@@ -25,7 +25,7 @@
   "dependencies": {
     "ark-authentication": "^2.10.4",
     "ark-chat": "^4.2.1",
-    "ark-database": "^17.0.0",
+    "ark-database": "^18.0.0",
     "ark-locationpool": "^4.8.0",
     "ark-mailer": "^2.3.5",
     "ark-realtime": "^2.3.3",
