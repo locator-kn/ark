@@ -7,10 +7,13 @@ var arkPlugins = require('./plugins.js');
 
 // parse env values and check if on travis
 var envVariables;
-if (process.env.travis) { // travis
+if (process.env.travis) {
+
+    // travis
     envVariables = require('./../../placeholderEnv.json');
 
 } else {
+
     // check if imageMagick is installed before starting the server
     if (!(require('shelljs').which('convert'))) {
         throw new Error('ImageMagick not installed. Unable to run application. Please install it! Server shut down');
@@ -39,47 +42,49 @@ server.ext('onPreResponse', (request, reply:any) => {
 });
 
 // Register plugins
-server.register(
-    [
-        {
-            register: require('chairo'),
-            options: {
-                log: 'silent'
-            }
-        },
-        {
-            register: require('hapi-swagger')
-        },
-        {
-            register: require('good'),
-            options: {
-                reporters: [{
-                    reporter: require('good-console'),
-                    events: {log: '*', response: '*', error: '*', request: '*'}
-                }]
-            }
-        },
-    ], err => {
-
-        if (err) {
-            throw err;
+server.register([
+    {
+        register: require('chairo'),
+        options: {
+            log: 'silent'
         }
+    },
+    {
+        register: require('hapi-swagger')
+    },
+    {
+        register: require('blipp')
+    },
+    {
+        register: require('good'),
+        options: {
+            reporters: [{
+                reporter: require('good-console'),
+                events: {log: '*', response: '*', error: '*', request: '*'}
+            }]
+        }
+    },
+], err => {
 
-        // register home made plugins
-        Promise.all([registerGeneralPlugins(), registerRealtimePlugins(), registerApiPlugins()])
-            .then(() => {
+    if (err) {
+        throw err;
+    }
 
-                // start the server
-                server.start(err => {
-                    if (err) {
-                        return console.error('error starting server:', err);
-                    }
-                    console.log('Server running at:', server.info.uri);
-                });
-            }).catch(err => {
-                throw err
+    // register home made plugins
+    Promise.all([registerGeneralPlugins(), registerRealtimePlugins(), registerApiPlugins()])
+        .then(() => {
+
+            // start the server
+            server.start(err => {
+                if (err) {
+                    return console.error('error starting server:', err);
+                }
+                console.log('Server running at:', server.info.uri);
             });
-    });
+        }).catch(err => {
+            throw err
+        });
+});
 
 function registerGeneralPlugins() {
     return new Promise((resolve, reject) => {
@@ -97,9 +102,8 @@ function registerGeneralPlugins() {
 }
 
 function registerRealtimePlugins() {
-
-    // register realtime plugins
     return new Promise((resolve, reject) => {
+
         server.select('realtime').register(arkPlugins.getRealtimePlugins(envVariables),
             {
                 routes: {
@@ -117,9 +121,8 @@ function registerRealtimePlugins() {
 }
 
 function registerApiPlugins() {
-
-    // register api plugins
     return new Promise((resolve, reject) => {
+
         server.select('api').register(arkPlugins.getPrefixPlugins(),
             {
                 routes: {
