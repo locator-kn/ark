@@ -9,7 +9,7 @@
             "out_file": "/var/log/locator/ark_main.stdout.log",
             "min_uptime": "2s",
             "max_restarts": 15,
-            "max_memory_restart": "400M",
+            "max_memory_restart": "600M",
             "watch": false,
             "merge_logs": true,
             "exec_interpreter": "node",
