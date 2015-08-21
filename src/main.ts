@@ -48,7 +48,7 @@ server.register([
         options: {
             log: 'silent'
         }
-    },*/
+    },*/ // wait for support of hapi 9.x.x
     {
         register: require('inert')
     },
@@ -72,7 +72,7 @@ server.register([
                 events: {log: '*', response: '*', error: '*', request: '*'}
             }]
         }
-    },*/
+    },*/ // wait for support of hapi 9.x.x
 ], err => {
 
     if (err) {
