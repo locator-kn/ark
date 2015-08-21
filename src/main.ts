@@ -43,19 +43,28 @@ server.ext('onPreResponse', (request, reply:any) => {
 
 // Register plugins
 server.register([
-    {
+ /*   {
         register: require('chairo'),
         options: {
             log: 'silent'
         }
+    },*/
+    {
+        register: require('inert')
     },
     {
-        register: require('hapi-swagger')
+        register: require('vision')
+    },
+    {
+        register: require('hapi-swagger'),
+        option: {
+            apiVersion: require('./../package.json').version
+        }
     },
     {
         register: require('blipp')
     },
-    {
+/*    {
         register: require('good'),
         options: {
             reporters: [{
@@ -63,7 +72,7 @@ server.register([
                 events: {log: '*', response: '*', error: '*', request: '*'}
             }]
         }
-    },
+    },*/
 ], err => {
 
     if (err) {
