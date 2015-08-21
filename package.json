@@ -33,15 +33,14 @@
     "ark-trip": "^9.3.0",
     "ark-user": "^4.6.2",
     "blipp": "^2.1.1",
-    "chairo": "0.0.1",
     "coveralls": "^2.11.2",
-    "good": "^6.3.0",
     "good-console": "^5.0.2",
-    "hapi": "^8.4.0",
-    "hapi-swagger": "^0.7.3",
+    "hapi": "^9.x.x",
+    "hapi-swagger": "^1.0.0",
+    "inert": "^3.0.1",
     "shelljs": "^0.4.0",
     "tsd": "^0.5.7",
-    "tv": "^4.1.0"
+    "vision": "^3.0.0"
   },
   "devDependencies": {
     "code": "^1.4.0",
