@@ -89,15 +89,19 @@ server.register([
 function registerGeneralPlugins() {
     return new Promise((resolve, reject) => {
 
-        server.register(arkPlugins.getGeneralPlugins(envVariables), err => {
+        server.register(arkPlugins.getGeneralPlugins(envVariables),
+            {
+                routes: {
+                    prefix: '/api/v1'
+                }
+            }, err => {
 
-            if (err) {
-                console.error('unable to init plugin: ', err);
-                return reject(err)
-
-            }
-            resolve();
-        });
+                if (err) {
+                    console.error('unable to init plugin:', err);
+                    return reject(err)
+                }
+                resolve();
+            });
     })
 }
 

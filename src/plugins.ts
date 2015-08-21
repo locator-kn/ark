@@ -45,7 +45,6 @@ exports.getRealtimePlugins = (envVariables) => {
     var chat = new Chat();
     var realtime = new Realtime(envVariables.auth);
 
-    // Order is important!!
     return [realtime, chat];
 
 };
