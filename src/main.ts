@@ -58,7 +58,7 @@ server.register([
     {
         register: require('hapi-swagger'),
         option: {
-            apiVersion: require('./../package.json').version
+            apiVersion: require('./../../package.json').version
         }
     },
     {
