@@ -34,6 +34,7 @@
     "ark-user": "^4.6.2",
     "blipp": "^2.1.1",
     "coveralls": "^2.11.2",
+    "good": "^6.3.0",
     "good-console": "^5.0.2",
     "hapi": "^9.x.x",
     "hapi-swagger": "^1.0.0",
