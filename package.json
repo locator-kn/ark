@@ -26,7 +26,7 @@
     "ark-authentication": "^2.10.4",
     "ark-chat": "^4.2.1",
     "ark-database": "^18.3.0",
-    "ark-locationpool": "^4.10.0",
+    "ark-locationpool": "^4.11.0",
     "ark-mailer": "^2.3.5",
     "ark-realtime": "^2.3.3",
     "ark-staticdata": "^8.0.1",
