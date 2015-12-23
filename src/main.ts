@@ -64,6 +64,9 @@ server.register([
     {
         register: require('blipp')
     },
+    {
+        register: require('h2o2')
+    },
 /*    {
         register: require('good'),
         options: {
